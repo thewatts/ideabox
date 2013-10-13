@@ -1,0 +1,10 @@
+%form{ action: "/#{id if mode == :edit}", method: 'POST' }
+  -if mode == :edit
+    %p Edit Your Idea:
+    %input{ type: "hidden", name: "_method", value: "put" }
+  -else
+    %p Your Idea:
+  %input{ type: 'text', name: 'idea[title]' }
+  %br
+  %textarea{ name: "idea[description]" }
+  %input{ type: 'submit' }
