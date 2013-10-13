@@ -2,7 +2,7 @@ require 'yaml/store'
 
 class IdeaStore
 
-  def create(attributes)
+  def self.create(attributes)
     database.transaction do 
       database['ideas'] ||= []
       database['ideas'] << attributes

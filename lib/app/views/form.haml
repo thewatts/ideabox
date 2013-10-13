@@ -4,7 +4,8 @@
     %input{ type: "hidden", name: "_method", value: "put" }
   -else
     %p Your Idea:
-  %input{ type: 'text', name: 'idea[title]' }
+  %input{ type: 'text', name: 'idea[title]', value: "#{idea.title}" }
   %br
   %textarea{ name: "idea[description]" }
+    =idea.description
   %input{ type: 'submit' }

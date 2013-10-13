@@ -4,3 +4,5 @@ ideas:
   description: asdf!!!
 - title: Your face!
   description: is great!
+- title: asdf
+  description: "asdf\r\n"
