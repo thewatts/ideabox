@@ -1,6 +1,7 @@
 require './test/test_helper'
+require './lib/idea_box/idea'
 
-describe Idea do
+class IdeaTest < MiniTest::Test
 
   attr_reader :idea
 
@@ -14,34 +15,31 @@ describe Idea do
     @idea = Idea.new(attributes)
   end
 
-  it "can be created with no arguments" do
-    Idea.new.must_be_kind_of Idea
-    Idea.new.must_respond_to :id
-    Idea.new.must_respond_to :title
-    Idea.new.must_respond_to :description
-    Idea.new.must_respond_to :rank
+  def test_it_can_be_created_with_no_arguments
+    idea = Idea.new
+    assert_kind_of Idea, idea 
   end
 
-  it "can be created with the correct attributes" do
-    idea.id.must_equal "1"
-    idea.title.must_equal "The Title"
-    idea.description.must_equal "The Description of this Idea"
-    idea.rank.must_equal 0
+  def test_it_can_be_created_with_the_correct_attributes
+    assert_equal "1", idea.id
+    assert_equal "The Title", idea.title
+    assert_equal "The Description of this Idea", idea.description
+    assert_equal 0, idea.rank
   end
 
-  it "can be liked, increasing its like count by 1" do
-    idea.rank.must_equal 0
+  def test_it_can_be_liked_increasing_its_like_count_by_1
+    assert_equal 0, idea.rank
     idea.like!
-    idea.rank.must_equal 1
+    assert_equal 1, idea.rank
   end
 
-  it "can put its attributes into a hash" do
+  def test_it_can_put_its_attributes_into_a_hash
     hash = {
       "title" => "The Title",
       "description" => "The Description of this Idea",
       "rank" => 0
     }
-    idea.to_h.must_equal hash
+    assert_equal hash, idea.to_h
   end
 
   it "can take in and split tags" do

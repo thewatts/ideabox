@@ -18,6 +18,7 @@ class IdeaBoxApp < Sinatra::Base
 
   post '/' do
     IdeaStore.create(params[:idea])
+#    binding.pry
     redirect "/"
   end
 
@@ -27,6 +28,9 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   put '/:id' do |id|
+    #if request.headers["Content-Type"] == "application/json"
+    #  # make json
+    #else
     IdeaStore.update(id.to_i, params[:idea])
     redirect '/'
   end
