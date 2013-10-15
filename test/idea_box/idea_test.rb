@@ -44,4 +44,12 @@ describe Idea do
     idea.to_h.must_equal hash
   end
 
+  it "can take in and split tags" do
+    idea = Idea.new("tags" => "cool things, chicken, cheesy potatoes & gravy")
+    idea.tags.count.must_equal 3
+    idea.tags.must_include "cool things"
+    idea.tags.must_include "chicken"
+    idea.tags.must_include "cheesy potatoes & gravy"
+  end
+
 end
