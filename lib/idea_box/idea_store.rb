@@ -12,6 +12,12 @@ class IdeaStore
     IdeaStore.database
   end
 
+  def self.destroy_db
+    @database = nil
+    File.delete('./test/db/ideabox') if ENV["RACK_ENV"] == "test"
+    File.delete('./db/ideabox') if ENV["RACK_ENV"] != "test"
+  end
+
   def self.all
     ideas = []
     raw_ideas.each_with_index do |data, i|
@@ -29,7 +35,8 @@ class IdeaStore
   def self.database
     return @database if @database
 
-    @database = YAML::Store.new "db/ideabox"
+    @database = YAML::Store.new "db/ideabox" if ENV["RACK_ENV"] != "test"
+    @database = YAML::Store.new "test/db/ideabox" if ENV["RACK_ENV"] == "test"
     @database.transaction do
       @database['ideas'] ||= []
     end
