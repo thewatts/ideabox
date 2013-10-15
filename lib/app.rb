@@ -1,6 +1,14 @@
 require './lib/idea_box'
+require 'better_errors'
+
 
 class IdeaBoxApp < Sinatra::Base
+
+  configure :development do
+    use BetterErrors::Middleware
+    BetterErrors.application_root = __dir__
+  end
+
   set :method_override, true
   set :root, 'lib/app'
 
@@ -18,7 +26,6 @@ class IdeaBoxApp < Sinatra::Base
 
   post '/' do
     IdeaStore.create(params[:idea])
-#    binding.pry
     redirect "/"
   end
 
@@ -45,6 +52,10 @@ class IdeaBoxApp < Sinatra::Base
     idea.like!
     IdeaStore.update(id.to_i, idea.to_h)
     redirect '/'
+  end
+
+  get '/tags' do
+    ideas = Ideas.all
   end
 
 end

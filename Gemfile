@@ -4,6 +4,10 @@ gem 'sinatra',         require: 'sinatra/base'
 gem 'sinatra-contrib', require: 'sinatra/reloader'
 gem 'haml'
 
+group :development do
+  gem "better_errors"
+end
+
 group :test do
   gem 'rack-test',              require: false
   gem 'capybara',               require: false
