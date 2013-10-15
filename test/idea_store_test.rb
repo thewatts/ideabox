@@ -1,12 +1,12 @@
 require './test/test_helper'
 require './lib/idea_box'
 
-describe IdeaStore do
+class IdeaStoreTest < MiniTest::Test
 
   attr_reader :store
 
   def setup
-    IdeaStore.create("id" => 1, "title" => "The Title", 
+    IdeaStore.create("id" => 1, "title" => "The Title",
                      "description" => "The Description")
   end
 
@@ -14,48 +14,48 @@ describe IdeaStore do
     IdeaStore.destroy_db
   end
 
-  it "has a database" do
-    IdeaStore.database.must_be_kind_of YAML::Store
+  def test_it_has_a_database
+    assert_kind_of YAML::Store, IdeaStore.database
   end
 
-  it "can destroy that database" do
-    IdeaStore.all.count.must_equal 1
+  def test_it_can_destroy_its_database
+    assert_equal 1, IdeaStore.all.count
     IdeaStore.destroy_db
-    IdeaStore.all.count.must_equal 0
+    assert_equal 0, IdeaStore.all.count
   end
 
-  it "can find all of the ideas in the database" do
-    IdeaStore.all.count.must_equal 1
-    IdeaStore.create("id" => "2", "title" => "The Title", 
+  def test_it_can_find_all_of_the_ideas_in_the_database
+    assert_equal 1, IdeaStore.all.count
+    IdeaStore.create("id" => "2", "title" => "The Title",
                      "description" => "Description")
-    IdeaStore.all.count.must_equal 2
+    assert_equal 2, IdeaStore.all.count
   end
 
-  it "can find an idea by its ID" do
+  def test_it_can_find_an_idea_by_the_id
     title = "The Title"
     id = 1
     idea = IdeaStore.find(id - 1)
-    idea.title.must_equal title
+    assert_equal title, idea.title
   end
 
-  it "can create ideas in the database from attributes" do
-    IdeaStore.create("id" => "2", "title" => "The Title", 
+  def test_it_can_create_ideas_in_the_database_from_attributes
+    IdeaStore.create("id" => "2", "title" => "The Title",
                      "description" => "Description")
-    IdeaStore.all.count.must_equal 2
+    assert_equal 2, IdeaStore.all.count
   end
 
-  it "can delete ideas in the database" do
-    IdeaStore.create("id" => 2, "title" => "The Title", 
+  def test_it_can_delete_ideas_from_the_database
+    IdeaStore.create("id" => 2, "title" => "The Title",
                      "description" => "The Description")
-    IdeaStore.all.count.must_equal 2
+    assert_equal 2, IdeaStore.all.count
     IdeaStore.delete(1)
-    IdeaStore.all.count.must_equal 1
+    assert_equal 1, IdeaStore.all.count
   end
 
-  it "can update ideas in the database" do
+  def test_it_can_update_ideas_in_the_database
     new_title = "The New Title!"
     IdeaStore.update(0, "title" => new_title)
-    IdeaStore.find(0).title.must_equal new_title
+    assert_equal new_title, IdeaStore.find(0).title
   end
 
 
