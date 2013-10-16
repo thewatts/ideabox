@@ -1,12 +1,12 @@
 class AssetHandler < Sinatra::Base
-  #configure do
-  #  set :views, File.dirname(__FILE__) + '/assets'
-  #  set :jsdir, 'js'
-  #  set :cssdir, 'css'
-  #  enable :coffeescript
-  #  set :cssengine, 'scss'
-  #  set :root, './lib/app'
-  #end
+  configure do
+    set :views, File.dirname(__FILE__) + '/assets'
+    set :jsdir, 'js'
+    set :cssdir, 'css'
+    enable :coffeescript
+    set :cssengine, 'scss'
+    set :root, './lib/app'
+  end
 
   get '/javascripts/*.js' do
     pass unless settings.coffeescript?
