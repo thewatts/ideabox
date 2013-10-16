@@ -24,7 +24,7 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_creates_an_idea
-    post '/', :idea => { "title" => "Another Title", 
+    post '/', :idea => { "title" => "Another Title",
                          "description" => "YAHOO!" }
     assert_equal 2, IdeaStore.all.count
   end
@@ -36,7 +36,7 @@ class IdeaBoxAppTest < MiniTest::Test
 
   def test_it_updates_an_idea
     assert_equal "The Title", IdeaStore.all.first.title
-    put '/0', :idea => { "title" => "Another Title", 
+    put '/0', :idea => { "title" => "Another Title",
                          "description" => "YAHOO!" }
     assert_equal "Another Title", IdeaStore.all.first.title
   end
@@ -51,7 +51,7 @@ class IdeaBoxAppTest < MiniTest::Test
   def test_it_deletes_an_idea
     assert_equal 1, IdeaStore.all.count
     delete '/0'
-    assert_equal "http://example.org/", last_request.url
+    assert_equal "http://example.org/0", last_request.url
     assert_equal 0, IdeaStore.all.count
   end
 

@@ -63,9 +63,9 @@ class IdeaStore
     @database
   end
 
-  def self.delete(position)
+  def self.delete(id)
     database.transaction do
-      database['ideas'].delete_at(position)
+      database['ideas'].delete_at(id - 1)
     end
   end
 
