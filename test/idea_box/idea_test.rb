@@ -7,21 +7,21 @@ class IdeaTest < MiniTest::Test
 
   def setup
     attributes = {
-      "id" => "1",
-      "title" => "The Title",
+      "id"          => 1,
+      "title"       => "The Title",
       "description" => "The Description of this Idea",
-      "rank" => 0
+      "rank"        => 0,
+      "tags"        => "life, work, pizza, cheese"
     }
     @idea = Idea.new(attributes)
   end
 
-  def test_it_can_be_created_with_no_arguments
-    idea = Idea.new
-    assert_kind_of Idea, idea 
+  def test_it_exists
+    assert Idea
   end
 
   def test_it_can_be_created_with_the_correct_attributes
-    assert_equal "1", idea.id
+    assert_equal 1, idea.id
     assert_equal "The Title", idea.title
     assert_equal "The Description of this Idea", idea.description
     assert_equal 0, idea.rank
@@ -42,12 +42,12 @@ class IdeaTest < MiniTest::Test
     assert_equal hash, idea.to_h
   end
 
-  it "can take in and split tags" do
+  def testit_can_take_in_and_split_tags
     idea = Idea.new("tags" => "cool things, chicken, cheesy potatoes & gravy")
-    idea.tags.count.must_equal 3
-    idea.tags.must_include "cool things"
-    idea.tags.must_include "chicken"
-    idea.tags.must_include "cheesy potatoes & gravy"
+    assert_equal 3, idea.tags.count
+    assert idea.tags.include "cool things"
+    assert idea.tags.include "chicken"
+    assert idea.tags.include "cheesy potatoes & gravy"
   end
 
 end

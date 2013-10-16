@@ -1,22 +1,30 @@
 class Idea
   include Comparable
 
-  attr_reader :title, :description, :rank, :id, :tags
+  attr_reader :title, :description, :rank, :id
 
   def initialize(attributes = {})
-    @id          = attributes["id"]
+    @id          = attributes["id"].to_i
     @title       = attributes["title"]
     @description = attributes["description"]
     @rank        = attributes["rank"] || 0
-    @tags        = split_tags(attributes["tags"])
+    @tags        = attributes["tags"]
   end
 
   def split_tags(tags)
-    tags.gsub(', ', ',').split(',') if tags
+    if tags
+      tags.gsub(', ', ',').split(',')
+    else
+      []
+    end
   end
 
   def save
     IdeaStore.create(to_h)
+  end
+
+  def tags
+    split_tags(@tags)
   end
 
   def to_h
