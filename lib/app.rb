@@ -1,18 +1,17 @@
 require './lib/idea_box'
+require './lib/app/helpers/asset_handler'
 require 'better_errors'
-
+require 'sass'
 
 class IdeaBoxApp < Sinatra::Base
+#  use AssetHandler
+
+  set :root, 'lib/app'
+  set :method_override, true
 
   configure :development do
     use BetterErrors::Middleware
-    BetterErrors.application_root = __dir__
-  end
-
-  set :method_override, true
-  set :root, 'lib/app'
-
-  configure :development do
+    BetterErrors.application_root = 'lib/app'
     register Sinatra::Reloader
   end
 

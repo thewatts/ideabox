@@ -1,8 +1,12 @@
 source 'https://rubygems.org'
 
-gem 'sinatra',         require: 'sinatra/base'
-gem 'sinatra-contrib', require: 'sinatra/reloader'
+gem 'sinatra',           require: 'sinatra/base'
+gem 'sinatra-contrib',   require: 'sinatra/reloader'
 gem 'haml'
+gem 'thin'
+gem 'sass'
+gem "coffee-script"
+gem "therubyracer"
 
 group :development do
   gem "better_errors"
