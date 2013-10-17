@@ -2,6 +2,16 @@
 %html
   %head
     %title IdeaBox, Your Ideas... IN A BOX!
+    /%link{:rel => "stylesheet", :href => "/css/reset.css"}
+    /%link{:rel => "stylesheet", :href => "/css/foundation.css"}
+    /%link{:rel => "stylesheet", :href => "/css/app.css"}
+    != css :application, :media => 'screen'
   %body
+    .row.header
+      %h1.logo
+        %a{ href: "/", title: "Home | IdeaBox" }
+          IdeaBox
+      .user_nav
+        %span thewatts
     %h1 IdeaBox!
     =yield
