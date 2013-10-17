@@ -38,12 +38,12 @@ class UserTest < MiniTest::Test
     attributes = {
       "id"         => 1,
       "login"      => "thewatts",
-      "password"   => "asdf",
       "email"      => "reg@nathanielwatts.com",
+      "password"   => "asdf",
+      "first_name" => "Nathaniel",
+      "last_name"  => "Watts",
       "created_at" => time,
       "updated_at" => time,
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts"
     }
     assert_equal attributes, user.to_h
   end

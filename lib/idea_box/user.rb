@@ -4,12 +4,12 @@ class User
               :updated_at, :created_at
 
   def initialize(attributes = {})
-    @id                    = attributes["id"].to_i
-    @login                 = attributes["login"].downcase
-    @email                 = attributes["email"].downcase
-    @password              = attributes["password"]
-    @first_name            = attributes["first_name"]
-    @last_name             = attributes["last_name"]
+    @id                    = attributes["id"].to_s.to_i
+    @login                 = attributes["login"].to_s.downcase
+    @email                 = attributes["email"].to_s.downcase
+    @password              = attributes["password"].to_s
+    @first_name            = attributes["first_name"].to_s
+    @last_name             = attributes["last_name"].to_s
     @created_at            = attributes["created_at"]
     @updated_at            = attributes["updated_at"]
   end

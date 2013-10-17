@@ -1,13 +1,21 @@
 require './test/test_helper'
-require './lib/user'
+require './lib/idea_box/user'
+require './lib/idea_box/user_store'
 
 class UserStoreTest < MiniTest::Test
 
   attr_reader :store
 
   def setup
-    UserStore.create("id" => 1, "title" => "The Title",
-                     "description" => "The Description")
+    UserStore.create(
+      "login"      => "thewatts",
+      "password"   => "asdf",
+      "email"      => "reg@nathanielwatts.com",
+      "created_at" => time,
+      "updated_at" => time,
+      "first_name" => "Nathaniel",
+      "last_name"  => "Watts"
+    )
   end
 
   def teardown
@@ -36,10 +44,10 @@ class UserStoreTest < MiniTest::Test
   end
 
   def test_it_can_find_an_idea_by_the_id
-    title = "The Title"
+    login = "THEWATTS"
     id = 1
     idea = UserStore.find(id)
-    assert_equal title, idea.title
+    assert_equal login.downcase, idea.login
   end
 
   def test_it_can_create_ideas_in_the_database_from_attributes
@@ -57,57 +65,14 @@ class UserStoreTest < MiniTest::Test
   end
 
   def test_it_can_update_ideas_in_the_database
-    new_title = "The New Title!"
-    UserStore.update(1, "title" => new_title)
-    assert_equal new_title, UserStore.find(1).title
+    login = "LOGIN!"
+    UserStore.update(1, "login" => login)
+    assert_equal login.downcase, UserStore.find(1).login
   end
 
   def test_it_can_find_the_next_id
-    UserStore.create("title" => "The Title",
-                     "description" => "The Description")
+    UserStore.create("login" => "user-login")
     assert_equal 3, UserStore.next_id
-  end
-
-  def test_it_can_get_all_the_tags_from_items
-    UserStore.create("title" => "The Title",
-                     "description" => "The Description",
-                     "tags" => "home, life, chicken, cheese, food")
-    UserStore.create("title" => "The Title",
-                     "description" => "The Description",
-                     "tags" => "curry, chicken, cheese, food, weema")
-    tags = ["curry", "chicken", "cheese", "food", "weema", "home", "life"]
-    assert_equal tags.count, UserStore.tags.count
-    assert_equal tags.sort,  UserStore.tags
-  end
-
-  def test_it_can_find_an_idea_from_the_store_by_tag
-    UserStore.create("title" => "The First Idea",
-                     "description" => "The First Description",
-                     "tags" => "home, life, chicken, cheese, food")
-    UserStore.create("title" => "The Second Title",
-                     "description" => "The Second Description",
-                     "tags" => "curry, chicken, cheese, food, weema")
-    assert_equal "The First Idea", UserStore.find_all_by_tag("home")[0].title
-    assert_equal 1, UserStore.find_all_by_tag("home").count
-    assert_equal 2, UserStore.find_all_by_tag("chicken").count
-    assert_equal 1, UserStore.find_all_by_tag("weema").count
-  end
-
-  def test_it_can_find_an_idea_from_the_store_by_tag
-    UserStore.create("title" => "The First Idea",
-                     "description" => "The First Description",
-                     "tags" => "home, life")
-    UserStore.create("title" => "The Second Title",
-                     "description" => "The Second Description",
-                     "tags" => "curry, life")
-    idea1 = UserStore.find(2)
-    idea2 = UserStore.find(3)
-    group = {
-      "curry" => [idea1],
-      "home"  => [idea2],
-      "life"  => [idea1, idea2]
-    }
-    assert_equal group, UserStore.group_by_tags
   end
 
 end

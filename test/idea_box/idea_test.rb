@@ -31,13 +31,18 @@ class IdeaTest < MiniTest::Test
     assert_equal 0, idea.rank
     idea.like!
     assert_equal 1, idea.rank
+    assert_equal 1, idea.id
+    assert_equal "The Title", idea.title
+    assert_equal "The Description of this Idea", idea.description
+    assert_equal "life, work, pizza, cheese", idea.tags_original
   end
 
   def test_it_can_put_its_attributes_into_a_hash
     hash = {
       "title" => "The Title",
       "description" => "The Description of this Idea",
-      "rank" => 0
+      "rank" => 0,
+      "user_id" => 0
     }
     assert_equal hash, idea.to_h
   end

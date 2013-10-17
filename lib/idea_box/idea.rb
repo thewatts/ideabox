@@ -1,7 +1,7 @@
 class Idea
   include Comparable
 
-  attr_reader :title, :description, :rank, :id
+  attr_reader :id, :title, :description, :rank, :user_id
 
   def initialize(attributes = {})
     @id          = attributes["id"].to_i
@@ -28,11 +28,16 @@ class Idea
     split_tags(@tags)
   end
 
+  def tags_original
+    @tags
+  end
+
   def to_h
     {
       "title"       => title,
       "description" => description,
       "rank"        => rank,
+      "tags"        => tags_original,
       "user_id"     => user_id
     }
   end

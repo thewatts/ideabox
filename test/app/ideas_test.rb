@@ -46,6 +46,7 @@ class IdeaBoxAppTest < MiniTest::Test
     post "/#{id}/like"
     idea = IdeaStore.find(id)
     assert_equal 1, idea.rank
+    assert_equal "The Title", idea.title
   end
 
   def test_it_deletes_an_idea
