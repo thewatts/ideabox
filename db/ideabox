@@ -12,3 +12,13 @@ ideas:
 - id: 4
   title: The Title
   description: The Description
+users:
+- !ruby/object:User
+  id: 1
+  login: thewatts
+  email: reg@nathanielwatts.com
+  password: ''
+  first_name: ''
+  last_name: ''
+  created_at: 
+  updated_at: 

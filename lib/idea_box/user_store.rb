@@ -3,10 +3,10 @@ require 'yaml/store'
 
 class UserStore
 
-  def self.create(attributes)
-    id = next_id
+  def self.create(object)
+    object.id = next_id
     database.transaction do
-      database['users'] << {"id" => id}.merge(attributes)
+      database['users'] << object
     end
   end
 
