@@ -2,7 +2,7 @@ require './lib/idea_box/data_store'
 
 class User
 
-  extend DataStore
+  include DataStore
 
   class << self
 
@@ -16,33 +16,45 @@ class User
 
   end
 
-  attr_reader   :login, :email, :first_name, :last_name
-  attr_accessor :id, :created_at, :updated_at
+  attr_reader   :login, :email
+  attr_accessor :id, :first_name, :last_name,
+                :created_at, :updated_at
 
   def initialize(attributes = {})
-    @login                 = attributes["login"].to_s.downcase
-    @email                 = attributes["email"].to_s.downcase
-    @password              = attributes["password"].to_s
-    @first_name            = attributes["first_name"].to_s
-    @last_name             = attributes["last_name"].to_s
+    @login                 = validate_login(attributes["login"])
+    @email                 = validate_email(attributes["email"])
+    @password              = validate(attributes["password"])
+    @first_name            = validate(attributes["first_name"])
+    @last_name             = validate(attributes["last_name"])
   end
 
   def save
-    UserStore.create(self)
+    User.create(self)
   end
 
-#  def to_h
-#    {
-#      "id"         => id,
-#      "login"      => login,
-#      "email"      => email,
-#      "password"   => password,
-#      "first_name" => first_name,
-#      "last_name"  => last_name,
-#      "created_at" => created_at,
-#      "updated_at" => updated_at
-#    }
-#  end
+  def update_attibutes(hash)
+    self.class.update(self.id, hash)
+  end
+
+  def validate(data)
+    data.to_s
+  end
+
+  def validate_login(data)
+    data.to_s.downcase
+  end
+
+  def validate_email(data)
+    data.to_s.downcase
+  end
+
+  def login=(new_login)
+    @login = new_login.to_s.downcase
+  end
+
+  def email=(new_email)
+    @email = new_email.to_s.downcase
+  end
 
   private
   attr_reader :password

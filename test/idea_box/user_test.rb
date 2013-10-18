@@ -28,33 +28,36 @@ class UserTest < MiniTest::Test
     assert_equal "Watts",                  user.last_name
   end
 
-  def test_it_can_store_its_attributes_in_a_hash
-    skip
-    attributes = {
-      "id"         => 1,
-      "login"      => "thewatts",
-      "email"      => "reg@nathanielwatts.com",
-      "password"   => "asdf",
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts",
-      "created_at" => time,
-      "updated_at" => time,
-    }
-    assert_equal attributes, user.to_h
-  end
-
   def test_it_can_be_saved_to_the_database
+    User.reset_table
     attributes = {
-      "login"      => "thewatts",
+      "login"      => "THEWATTS",
       "password"   => "asdf",
       "email"      => "reg@nathanielwatts.com",
-      "created_at" => time,
-      "updated_at" => time,
       "first_name" => "Nathaniel",
       "last_name"  => "Watts"
     }
     new_user = User.new(attributes)
-    UserStore
+    new_user.save
+    assert_equal 1, User.all.count
+    assert_equal 1, User.first.id
+    assert_equal "thewatts", User.first.login
+  end
+
+  def test_it_can_update_its_attributes
+    User.reset_table
+    attributes = {
+      "login"      => "THEWATTS",
+      "password"   => "asdf",
+      "email"      => "reg@nathanielwatts.com",
+      "first_name" => "Nathaniel",
+      "last_name"  => "Watts"
+    }
+    new_user = User.new(attributes)
+    new_user.save
+    assert_equal 1, User.all.count
+    new_user.update_attributes("login" => "the_new_login")
+    assert_equal "the_new_login", User.first.login
   end
 
 
