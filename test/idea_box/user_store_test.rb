@@ -1,7 +1,7 @@
 require './test/test_helper'
 require './lib/idea_box/user'
 
-class UserTest < MiniTest::Test
+class UserStoreTest < MiniTest::Test
 
   attr_reader :store
 
@@ -10,8 +10,6 @@ class UserTest < MiniTest::Test
       "login"      => "thewatts",
       "password"   => "asdf",
       "email"      => "reg@nathanielwatts.com",
-      "created_at" => time,
-      "updated_at" => time,
       "first_name" => "Nathaniel",
       "last_name"  => "Watts"
     )
@@ -31,7 +29,7 @@ class UserTest < MiniTest::Test
 
   def test_it_can_destroy_its_database
     assert_equal 1, User.all.count
-    User.destroy_db
+    User.reset_table
     assert_equal 0, User.all.count
   end
 
@@ -50,8 +48,8 @@ class UserTest < MiniTest::Test
   end
 
   def test_it_can_create_ideas_in_the_database_from_attributes
-    User.create("title" => "The Title",
-                     "description" => "Description")
+    User.create("login" => "the_new_login",
+                "email" => "email@example.com")
     assert_equal 2, User.all.count
   end
 

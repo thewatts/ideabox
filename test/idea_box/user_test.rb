@@ -1,4 +1,4 @@
-require 'test_helper'
+require './test/test_helper'
 require './lib/idea_box/user'
 require './lib/idea_box/user_store'
 

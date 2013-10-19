@@ -38,6 +38,7 @@ class IdeaTest < MiniTest::Test
   end
 
   def test_it_can_put_its_attributes_into_a_hash
+    skip
     hash = {
       "title" => "The Title",
       "description" => "The Description of this Idea",
