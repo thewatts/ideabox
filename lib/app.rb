@@ -42,16 +42,16 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   get '/' do
-    haml :index, locals: { ideas: IdeaStore.all.sort, idea: Idea.new }
+    haml :index, locals: { ideas: Idea.all.sort, idea: Idea.new }
   end
 
   post '/' do
-    IdeaStore.create(params[:idea])
+    Idea.create(params[:idea])
     redirect "/"
   end
 
   get '/:id/edit' do |id|
-    idea = IdeaStore.find(id.to_i)
+    idea = Idea.find(id.to_i)
     haml :edit, locals: { idea: idea }
   end
 
@@ -59,24 +59,23 @@ class IdeaBoxApp < Sinatra::Base
     #if request.headers["Content-Type"] == "application/json"
     #  # make json
     #else
-    IdeaStore.update(id.to_i, params[:idea])
+    Idea.update(id.to_i, params[:idea])
     redirect '/'
   end
 
   delete '/:id' do |id|
-    IdeaStore.delete(id.to_i)
+    Idea.delete(id.to_i)
     redirect '/'
   end
 
   post '/:id/like' do |id|
-    idea = IdeaStore.find(id.to_i)
+    idea = Idea.find(id.to_i)
     idea.like!
-    IdeaStore.update(id.to_i, idea.to_h)
     redirect '/'
   end
 
   get '/tags' do
-    ideas = Ideas.all
+    ideas = Idea.all
   end
 
 end

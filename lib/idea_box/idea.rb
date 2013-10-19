@@ -1,15 +1,56 @@
+require './lib/idea_box/data_store'
+
 class Idea
+  extend DataStore
   include Comparable
 
-  attr_reader :id, :title, :description, :rank, :user_id
+  class << self
+
+    def table
+      "ideas"
+    end
+
+    def klass
+      Idea
+    end
+
+    def tags
+      all.collect do |idea|
+        idea.tags.collect do |tag|
+          tag
+        end
+      end.flatten.uniq.sort
+    end
+
+    def find_all_by_tag(tag)
+      all.find_all { |idea| idea.tags.include? tag }
+    end
+
+    def group_by_tags
+      tags.each_with_object({}) do |tag, group|
+        group[tag] = find_all_by_tag(tag)
+      end
+    end
+
+  end
+
+  attr_accessor :id, :title, :description, :rank,
+                :user_id, :created_at, :updated_at
 
   def initialize(attributes = {})
-    @id          = attributes["id"].to_i
     @title       = attributes["title"]
     @description = attributes["description"]
     @rank        = attributes["rank"] || 0
     @user_id     = attributes["user_id"].to_i
     @tags        = attributes["tags"]
+  end
+
+  def save
+    Idea.create(self)
+  end
+
+  def update_attributes(hash)
+    self.class.update(self.id, hash)
   end
 
   def split_tags(tags)
@@ -20,10 +61,6 @@ class Idea
     end
   end
 
-  def save
-    IdeaStore.create(to_h)
-  end
-
   def tags
     split_tags(@tags)
   end
@@ -32,18 +69,9 @@ class Idea
     @tags
   end
 
-  def to_h
-    {
-      "title"       => title,
-      "description" => description,
-      "rank"        => rank,
-      "tags"        => tags_original,
-      "user_id"     => user_id
-    }
-  end
-
   def like!
     @rank += 1
+    update_attributes(rank: @rank)
   end
 
   def <=>(other)

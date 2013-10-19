@@ -1,21 +1,23 @@
 require './test/test_helper'
 require './test/app_helper'
-require 'CGI'
+require './lib/idea_box'
 
 class IdeaBoxAppTest < MiniTest::Test
   include Rack::Test::Methods
+
+  Idea.destroy_db
 
   def app
     IdeaBoxApp.new
   end
 
   def setup
-    IdeaStore.create("id" => 1, "title" => "The Title",
-                     "description" => "The Description")
+    Idea.create("title" => "The Title",
+                "description" => "The Description")
   end
 
   def teardown
-    IdeaStore.destroy_db
+    Idea.destroy_db
   end
 
   def test_it_should_hit_the_home_page
@@ -24,36 +26,41 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_creates_an_idea
+    #skip
     post '/', :idea => { "title" => "Another Title",
                          "description" => "YAHOO!" }
-    assert_equal 2, IdeaStore.all.count
+    assert_equal 2, Idea.all.count
   end
 
   def test_it_goes_to_idea_edit_page
-    get '/0/edit'
+    #skip
+    get '/1/edit'
     assert last_response.ok?
   end
 
   def test_it_updates_an_idea
-    assert_equal "The Title", IdeaStore.all.first.title
-    put '/0', :idea => { "title" => "Another Title",
+    #skip
+    assert_equal "The Title", Idea.all.first.title
+    put '/1', :idea => { "title" => "Another Title",
                          "description" => "YAHOO!" }
-    assert_equal "Another Title", IdeaStore.all.first.title
+    assert_equal "Another Title", Idea.all.first.title
   end
 
   def test_it_likes_an_idea
-    id = 0
+    #skip
+    id = 1
     post "/#{id}/like"
-    idea = IdeaStore.find(id)
+    idea = Idea.find(id)
     assert_equal 1, idea.rank
     assert_equal "The Title", idea.title
   end
 
   def test_it_deletes_an_idea
-    assert_equal 1, IdeaStore.all.count
-    delete '/0'
-    assert_equal "http://example.org/0", last_request.url
-    assert_equal 0, IdeaStore.all.count
+    #skip
+    assert_equal 1, Idea.all.count
+    delete '/1'
+    assert_equal "http://example.org/1", last_request.url
+    assert_equal 0, Idea.all.count
   end
 
 end

@@ -1,11 +1,30 @@
 ---
+ideas:
+- !ruby/object:Idea
+  title: The Title
+  description: The Description
+  rank: 0
+  user_id: 0
+  tags: 
+  id: 1
+  created_at: 2013-10-19 20:24:34.435090000 Z
+  updated_at: 2013-10-19 20:24:34.435095000 Z
+- !ruby/object:Idea
+  title: The Title
+  description: The Description of this Idea
+  rank: 0
+  user_id: 0
+  tags: life, work, pizza, cheese
+  id: 2
+  created_at: 2013-10-19 20:24:34.438781000 Z
+  updated_at: 2013-10-19 20:24:34.438786000 Z
 users:
 - !ruby/object:User
-  login: thewatts
+  login: the_new_login
   email: reg@nathanielwatts.com
   password: asdf
   first_name: Nathaniel
   last_name: Watts
   id: 1
-  created_at: 2013-10-19 01:11:15.818813000 Z
-  updated_at: 2013-10-19 01:11:15.818818000 Z
+  created_at: 2013-10-19 20:24:34.570038000 Z
+  updated_at: 2013-10-19 20:24:34.570042000 Z

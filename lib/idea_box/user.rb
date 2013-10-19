@@ -2,7 +2,7 @@ require './lib/idea_box/data_store'
 
 class User
 
-  include DataStore
+  extend DataStore
 
   class << self
 
@@ -17,8 +17,7 @@ class User
   end
 
   attr_reader   :login, :email
-  attr_accessor :id, :first_name, :last_name,
-                :created_at, :updated_at
+  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at
 
   def initialize(attributes = {})
     @login                 = validate_login(attributes["login"])
@@ -32,7 +31,7 @@ class User
     User.create(self)
   end
 
-  def update_attibutes(hash)
+  def update_attributes(hash)
     self.class.update(self.id, hash)
   end
 
