@@ -102,4 +102,9 @@ class UserStoreTest < MiniTest::Test
     assert_equal "4567", User.find(2).uid
   end
 
+  def test_it_can_find_by_nickname
+    user = User.find_by_nickname("thewatts")
+    assert_equal "thewatts", user.nickname
+  end
+
 end

@@ -1,4 +1,5 @@
-= haml :form, locals: { idea: idea }
+- if current_user
+  = haml :form, locals: { idea: idea }
 
 %h3 Existing Ideas!
 

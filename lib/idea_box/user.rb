@@ -26,6 +26,10 @@ class User
       all.find { |user| user.uid == uid }
     end
 
+    def find_by_nickname(nickname)
+      all.find { |user| user.nickname == nickname }
+    end
+
   end
 
   attr_accessor :id, :uid, :name, :nickname,

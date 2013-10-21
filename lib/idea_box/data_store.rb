@@ -109,9 +109,9 @@ module DataStore
   def destroy_db
     @database = nil
     unless ENV['RACK_ENV'] == 'test'
-      File.delete('./db/ideabox')
+      File.delete('./db/ideabox') if File.exists?('./db/ideabox')
     else
-      File.delete('./test/db/ideabox')
+      File.delete('./test/db/ideabox') if File.exists?('./test/db/ideabox')
     end
   end
 

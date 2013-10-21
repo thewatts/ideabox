@@ -26,6 +26,8 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_creates_an_idea
+    User.create(:nickname => "thewatts", :euid => "1234")
+    current_user = User.find(1)
     #skip
     post '/', :idea => { "title" => "Another Title",
                          "description" => "YAHOO!" }

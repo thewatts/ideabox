@@ -58,6 +58,7 @@ class IdeaBoxApp < Sinatra::Base
   end
 
   post '/' do
+    params[:idea].merge!({"user_id" => current_user.id})
     Idea.create(params[:idea])
     redirect "/"
   end
@@ -90,9 +91,25 @@ class IdeaBoxApp < Sinatra::Base
     ideas = Idea.all
   end
 
+  get '/users' do
+    users = User.all
+    haml :users, locals: { users: users }
+  end
+
+  get '/users/:nickname' do |nickname|
+    user = User.find_by_nickname(nickname)
+    haml :user, locals: { user: user }
+  end
+
   get '/logout' do
     session[:user_id] = nil
     redirect '/'
+  end
+
+  ["/login/?", "/signup/?"].each do |path|
+    get path do
+      redirect '/auth/twitter'
+    end
   end
 
   get '/auth/twitter/callback' do

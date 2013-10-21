@@ -7,7 +7,7 @@ class IdeaStoreTest < MiniTest::Test
 
   def setup
     Idea.create("id" => 1, "title" => "The Title",
-                     "description" => "The Description")
+                "description" => "The Description", "user_id" => 1)
   end
 
   def teardown
