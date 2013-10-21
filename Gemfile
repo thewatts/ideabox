@@ -4,6 +4,9 @@ gem 'sinatra',           require: 'sinatra/base'
 gem 'sinatra-contrib',   require: 'sinatra/reloader'
 gem 'sinatra-assetpack', require: 'sinatra/assetpack'
 
+gem 'omniauth'
+gem 'omniauth-twitter'
+
 gem 'haml'
 gem 'thin'
 gem 'sass'

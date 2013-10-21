@@ -14,17 +14,28 @@ class User
       User
     end
 
+    def first_or_create(uid_hash, attributes)
+      user = find_by_uid(uid_hash[:uid])
+      if user.nil?
+        user = create(User.new(attributes))
+      end
+      user
+    end
+
+    def find_by_uid(uid)
+      all.find { |user| user.uid == uid }
+    end
+
   end
 
-  attr_reader   :login, :email
-  attr_accessor :id, :first_name, :last_name, :created_at, :updated_at
+  attr_accessor :id, :uid, :name, :nickname,
+                :image, :created_at, :updated_at
 
   def initialize(attributes = {})
-    @login                 = validate_login(attributes["login"])
-    @email                 = validate_email(attributes["email"])
-    @password              = validate(attributes["password"])
-    @first_name            = validate(attributes["first_name"])
-    @last_name             = validate(attributes["last_name"])
+    @uid                   = validate(attributes[:uid])
+    @name                  = validate(attributes[:name])
+    @nickname              = validate(attributes[:nickname])
+    @image                 = attributes[:image]
   end
 
   def save
@@ -40,19 +51,11 @@ class User
   end
 
   def validate_login(data)
-    data.to_s.downcase
-  end
-
-  def validate_email(data)
-    data.to_s.downcase
+    data.to_s
   end
 
   def login=(new_login)
-    @login = new_login.to_s.downcase
-  end
-
-  def email=(new_email)
-    @email = new_email.to_s.downcase
+    @login = new_login.to_s
   end
 
   private

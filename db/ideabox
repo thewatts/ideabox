@@ -1,24 +1,11 @@
 ---
-ideas:
-- id: 1
-  title: The Title
-  description: The Description
-- id: 2
-  title: The Title
-  description: The Description
-- id: 3
-  title: The Title
-  description: The Description
-- id: 4
-  title: The Title
-  description: The Description
+ideas: []
 users:
 - !ruby/object:User
+  uid: '15048561'
+  name: the watts
+  nickname: thewatts
+  image: http://a0.twimg.com/profile_images/1216842673/twitter-grass-stache_normal.png
   id: 1
-  login: thewatts
-  email: reg@nathanielwatts.com
-  password: ''
-  first_name: ''
-  last_name: ''
-  created_at: 
-  updated_at: 
+  created_at: 2013-10-21 20:36:03.112301000 Z
+  updated_at: 2013-10-21 20:36:03.112312000 Z

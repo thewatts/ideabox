@@ -4,10 +4,11 @@ require 'better_errors'
 require 'sass'
 
 class IdeaBoxApp < Sinatra::Base
-#  use AssetHandler
 
   set :root, 'lib/app'
   set :method_override, true
+
+  enable :sessions
 
   register Sinatra::AssetPack
 
@@ -36,6 +37,17 @@ class IdeaBoxApp < Sinatra::Base
     BetterErrors.application_root = 'lib/app'
     register Sinatra::Reloader
   end
+
+  helpers do
+    def current_user
+      @current_user ||= User.find(session[:user_id]) if session[:user_id]
+    end
+  end
+
+  # You'll need to customize the following line. Replace the CONSUMER_KEY
+  #   and CONSUMER_SECRET with the values you got from Twitter
+  #   (https://dev.twitter.com/apps/new).
+  use OmniAuth::Strategies::Twitter, 'Hxa2BN3YRedsQRXCrYHFA', 'EG9wDKRsAOyXcTSlglDC8JcCq9vVINl4ScDKaG9pQ'
 
   not_found do
     haml :error
@@ -77,5 +89,27 @@ class IdeaBoxApp < Sinatra::Base
   get '/tags' do
     ideas = Idea.all
   end
+
+  get '/logout' do
+    session[:user_id] = nil
+    redirect '/'
+  end
+
+  get '/auth/twitter/callback' do
+    auth = request.env["omniauth.auth"]
+    user = User.first_or_create(
+      {:uid => auth["uid"]},
+      {
+        :uid        => auth["uid"],
+        :nickname   => auth["info"]["nickname"],
+        :name       => auth["info"]["name"],
+        :image      => auth["info"]["image"]
+      }
+    )
+
+    session[:user_id] = user.id
+    redirect '/'
+  end
+
 
 end

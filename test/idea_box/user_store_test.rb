@@ -1,17 +1,15 @@
 require './test/test_helper'
-require './lib/idea_box/user'
+require './lib/idea_box'
 
 class UserStoreTest < MiniTest::Test
+
+  User.destroy_db if User.database
 
   attr_reader :store
 
   def setup
     User.create(
-      "login"      => "thewatts",
-      "password"   => "asdf",
-      "email"      => "reg@nathanielwatts.com",
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts"
+      :nickname => "thewatts",
     )
   end
 
@@ -35,41 +33,73 @@ class UserStoreTest < MiniTest::Test
 
   def test_it_can_find_all_of_the_ideas_in_the_database
     assert_equal 1, User.all.count
-    User.create("login" => "thenewlogin",
-                "email" => "newemail")
+    User.create(:nickname => "thenewlogin",
+                :email => "newemail")
     assert_equal 2, User.all.count
   end
 
   def test_it_can_find_an_idea_by_the_id
-    login = "THEWATTS"
+    nickname = "THEWATTS"
     id = 1
     idea = User.find(id)
-    assert_equal login.downcase, idea.login
+    assert_equal nickname.downcase, idea.nickname
   end
 
   def test_it_can_create_ideas_in_the_database_from_attributes
-    User.create("login" => "the_new_login",
-                "email" => "email@example.com")
+    User.create(:nickname => "the_new_login",
+                :mail     => "email@example.com")
     assert_equal 2, User.all.count
   end
 
   def test_it_can_delete_ideas_from_the_database
-    User.create("title" => "The Title",
-                     "description" => "The Description")
+    User.create(:nickname => "nickname")
     assert_equal 2, User.all.count
     User.delete(1)
     assert_equal 1, User.all.count
   end
 
   def test_it_can_update_ideas_in_the_database
-    login = "LOGIN!"
-    User.update(1, "login" => login)
-    assert_equal login.downcase, User.find(1).login
+    nickname = "login"
+    User.update(1, :nickname => nickname)
+    assert_equal nickname, User.find(1).nickname
   end
 
   def test_it_can_find_the_next_id
-    User.create("login" => "user-login")
+    User.create("nickname" => "user-login")
     assert_equal 3, User.next_id
+  end
+
+  def test_it_can_find_first_or_create_by_uid_and_params
+    User.reset_table
+    assert_equal 0, User.all.count
+
+    uid_hash   = { :uid => "1234" }
+    attributes = {
+      :uid      => "1234",
+      :nickname => "thewatts",
+      :name     => "Nathaniel Watts",
+      :image    => "http://google.com/"
+    }
+    User.first_or_create(uid_hash, attributes)
+
+    assert_equal 1, User.all.count
+    assert_equal 1, User.all.first.id
+    assert_equal "1234", User.all.first.uid
+
+    User.first_or_create(uid_hash, attributes)
+    assert_equal 1, User.all.count
+
+    uid_hash   = { :uid => "4567" }
+    attributes = {
+      :uid      => "4567",
+      :nickname => "thewatts",
+      :name     => "Nathaniel Watts",
+      :image    => "http://google.com/"
+    }
+    User.first_or_create(uid_hash, attributes)
+
+    assert_equal 2, User.all.count
+    assert_equal "4567", User.find(2).uid
   end
 
 end

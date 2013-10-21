@@ -4,15 +4,13 @@ require './lib/idea_box/user_store'
 
 class UserTest < MiniTest::Test
 
-  attr_reader :user
+  attr_reader :user, :attributes
 
   def setup
-    attributes = {
-      "login"      => "TheWatts",
-      "password"   => "asdf",
-      "email"      => "REG@nathanielwatts.com",
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts"
+    @attributes = {
+      :nickname => "thewatts",
+      :name     => "Nathaniel",
+      :image    => "http://google.com"
     }
     @user = User.new(attributes)
   end
@@ -22,42 +20,27 @@ class UserTest < MiniTest::Test
   end
 
   def test_its_initializes_with_correct_attributes
-    assert_equal "thewatts",               user.login
-    assert_equal "reg@nathanielwatts.com", user.email
-    assert_equal "Nathaniel",              user.first_name
-    assert_equal "Watts",                  user.last_name
+    assert_equal "thewatts",               user.nickname
+    assert_equal "Nathaniel",              user.name
+    assert_equal "http://google.com",      user.image
   end
 
   def test_it_can_be_saved_to_the_database
     User.reset_table
-    attributes = {
-      "login"      => "THEWATTS",
-      "password"   => "asdf",
-      "email"      => "reg@nathanielwatts.com",
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts"
-    }
     new_user = User.new(attributes)
     new_user.save
     assert_equal 1, User.all.count
     assert_equal 1, User.first.id
-    assert_equal "thewatts", User.first.login
+    assert_equal "thewatts", User.first.nickname
   end
 
   def test_it_can_update_its_attributes
     User.reset_table
-    attributes = {
-      "login"      => "THEWATTS",
-      "password"   => "asdf",
-      "email"      => "reg@nathanielwatts.com",
-      "first_name" => "Nathaniel",
-      "last_name"  => "Watts"
-    }
     new_user = User.new(attributes)
     new_user.save
     assert_equal 1, User.all.count
-    new_user.update_attributes("login" => "the_new_login")
-    assert_equal "the_new_login", User.first.login
+    new_user.update_attributes(:nickname => "the_new_login")
+    assert_equal "the_new_login", User.first.nickname
   end
 
 

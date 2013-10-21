@@ -7,6 +7,12 @@
     /%link{:rel => "stylesheet", :href => "/css/app.css"}
     != css :application, :media => 'screen'
   %body
+    - if current_user
+      %p there is a current user!
+      = current_user.nickname
+    - else
+      %p there is NO current user!
+      %a{ href: '/auth/twitter'} Sign in with Twitter
     .row.header
       %h1.logo
         %a{ href: "/", title: "Home | IdeaBox" }
