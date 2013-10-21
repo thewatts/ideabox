@@ -8,13 +8,10 @@ class UserStoreTest < MiniTest::Test
   attr_reader :store
 
   def setup
+    User.destroy_db
     User.create(
       :nickname => "thewatts",
     )
-  end
-
-  def teardown
-    User.reset_table
   end
 
   def test_it_exists

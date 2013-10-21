@@ -5,7 +5,6 @@ require './lib/idea_box'
 class UsersControllerTest < MiniTest::Test
   include Rack::Test::Methods
 
-  User.destroy_db
 
   attr_reader :attributes
 
@@ -14,6 +13,7 @@ class UsersControllerTest < MiniTest::Test
   end
 
   def setup
+    User.destroy_db
     @attributes = {
       :uid      => "1234",
       :nickname => "thewatts",

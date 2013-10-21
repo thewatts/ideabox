@@ -6,12 +6,9 @@ class IdeaStoreTest < MiniTest::Test
   attr_reader :store
 
   def setup
+    Idea.destroy_db
     Idea.create("id" => 1, "title" => "The Title",
                 "description" => "The Description", "user_id" => 1)
-  end
-
-  def teardown
-    Idea.reset_table
   end
 
   def test_it_has_a_database

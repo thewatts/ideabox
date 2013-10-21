@@ -1,4 +1,5 @@
 require './lib/idea_box/data_store'
+require './lib/idea_box'
 
 class User
 
@@ -60,6 +61,10 @@ class User
 
   def login=(new_login)
     @login = new_login.to_s
+  end
+
+  def ideas
+    Idea.find_all_by_user_id(id)
   end
 
   private

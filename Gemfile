@@ -18,6 +18,7 @@ group :development do
 end
 
 group :test do
+  gem 'pry'
   gem 'rack-test',              require: false
   gem 'capybara',               require: false
   gem 'minitest',               require: false

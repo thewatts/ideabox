@@ -5,19 +5,14 @@ require './lib/idea_box'
 class IdeaBoxAppTest < MiniTest::Test
   include Rack::Test::Methods
 
-  Idea.destroy_db
-
   def app
     IdeaBoxApp.new
   end
 
   def setup
+    Idea.destroy_db
     Idea.create("title" => "The Title",
                 "description" => "The Description")
-  end
-
-  def teardown
-    Idea.destroy_db
   end
 
   def test_it_should_hit_the_home_page
@@ -26,11 +21,21 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_creates_an_idea
-    User.create(:nickname => "thewatts", :euid => "1234")
-    current_user = User.find(1)
-    #skip
-    post '/', :idea => { "title" => "Another Title",
-                         "description" => "YAHOO!" }
+    user = User.create(:nickname => "thewatts", :euid => "1234")
+
+    url =  '/'
+    params = {
+      idea: {
+        "title" => "Another Title",
+        "description" => "YAHOO!"
+      }
+    }
+    session = {
+      "rack.session" => { :user_id => user.id }
+    }
+
+    post url, params, session
+
     assert_equal 2, Idea.all.count
   end
 

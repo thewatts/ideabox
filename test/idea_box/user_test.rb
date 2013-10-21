@@ -1,12 +1,14 @@
 require './test/test_helper'
-require './lib/idea_box/user'
-require './lib/idea_box/user_store'
+require './lib/idea_box'
+require 'pry'
 
 class UserTest < MiniTest::Test
 
   attr_reader :user, :attributes
 
   def setup
+    User.destroy_db
+    Idea.destroy_db
     @attributes = {
       :nickname => "thewatts",
       :name     => "Nathaniel",
@@ -43,5 +45,16 @@ class UserTest < MiniTest::Test
     assert_equal "the_new_login", User.first.nickname
   end
 
+  def test_it_can_return_its_items
+    new_user = User.create(attributes)
+    idea1 = Idea.create(
+      "title" => "go do things", "description" => "like swimming",
+      "user_id" => new_user.id)
+    idea2 = Idea.create(
+      "title" => "go do more things", "description" => "like running",
+      "user_id" => new_user.id)
+
+    assert_equal [idea1, idea2], new_user.ideas
+  end
 
 end

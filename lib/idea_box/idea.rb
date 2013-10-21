@@ -26,6 +26,10 @@ class Idea
       all.find_all { |idea| idea.tags.include? tag }
     end
 
+    def find_all_by_user_id(id)
+      all.find_all { |idea| idea.user_id == id }
+    end
+
     def group_by_tags
       tags.each_with_object({}) do |tag, group|
         group[tag] = find_all_by_tag(tag)
