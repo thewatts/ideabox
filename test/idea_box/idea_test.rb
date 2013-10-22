@@ -33,7 +33,7 @@ class IdeaTest < MiniTest::Test
     assert_equal 1, idea.rank
     assert_equal "The Title", idea.title
     assert_equal "The Description of this Idea", idea.description
-    assert_equal "life, work, pizza, cheese", idea.tags_original
+    assert_equal "life, work, pizza, cheese", idea.raw_tags
   end
 
   def test_it_can_put_its_attributes_into_a_hash

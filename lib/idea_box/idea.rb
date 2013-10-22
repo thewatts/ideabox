@@ -69,7 +69,7 @@ class Idea
     split_tags(@tags)
   end
 
-  def tags_original
+  def raw_tags
     @tags
   end
 
