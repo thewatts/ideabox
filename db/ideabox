@@ -9,6 +9,15 @@ ideas:
   id: 1
   created_at: 2013-10-21 21:14:31.967821000 Z
   updated_at: 2013-10-21 21:14:31.967830000 Z
+- !ruby/object:Idea
+  title: Eat Chicken
+  description: All the time
+  rank: 0
+  user_id: 1
+  tags: chicken, cheese, tacos
+  id: 2
+  created_at: 2013-10-22 04:27:27.232614000 Z
+  updated_at: 2013-10-22 04:27:27.232619000 Z
 users:
 - !ruby/object:User
   uid: '15048561'
@@ -18,3 +27,4 @@ users:
   id: 1
   created_at: 2013-10-21 20:36:03.112301000 Z
   updated_at: 2013-10-21 20:36:03.112312000 Z
+  phone: '+15172434516'

@@ -57,4 +57,10 @@ class UserTest < MiniTest::Test
     assert_equal [idea1, idea2], new_user.ideas
   end
 
+  def test_it_can_be_found_by_phone_number
+    attributes = @attributes.merge({:phone => "123-123-1234"})
+    new_user = User.create(attributes)
+    assert_equal new_user.id, User.find_by_phone("123-123-1234").id
+  end
+
 end

@@ -21,6 +21,7 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_creates_an_idea
+    User.reset_table
     user = User.create(:nickname => "thewatts", :euid => "1234")
 
     url =  '/'
@@ -68,6 +69,55 @@ class IdeaBoxAppTest < MiniTest::Test
     delete '/1'
     assert_equal "http://example.org/1", last_request.url
     assert_equal 0, Idea.all.count
+  end
+
+  def test_an_idea_can_be_created_via_sms
+    user_params = {
+      :phone => "+15172434516"
+    }
+    User.create(user_params)
+
+    assert_equal 1, Idea.all.count
+
+    url = '/sms'
+    params = {
+      :Body => "title :: description # cheese, steak, chicken",
+      :From => "+15172434516"
+    }
+
+    get url, params
+
+    assert_equal 2, Idea.all.count
+    idea = Idea.all.last
+    assert_equal "title", idea.title
+    assert_equal "description", idea.description
+    assert_equal "cheese, steak, chicken", idea.raw_tags
+    assert_equal 1, idea.user_id
+  end
+
+  def test_an_idea_wont_be_created_via_sms_if_user_doesnt_exist
+    user_params = {
+      :id    => 1,
+      :phone => "+15172434516"
+    }
+    User.create(user_params)
+
+    assert_equal 1, Idea.all.count
+
+    url = '/sms'
+    params = {
+      :Body => "title :: description # cheese, steak, chicken",
+      :From => "+123"
+    }
+
+    get url, params
+
+    assert_equal 1, Idea.all.count
+    idea = Idea.all.last
+    refute_equal "title", idea.title
+    refute_equal "description", idea.description
+    refute_equal "cheese, steak, chicken", idea.raw_tags
+    refute_equal 1, idea.user_id
   end
 
 end

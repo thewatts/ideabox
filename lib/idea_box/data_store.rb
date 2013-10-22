@@ -1,4 +1,5 @@
 require 'yaml/store'
+require 'pry'
 
 module DataStore
 
@@ -9,6 +10,7 @@ module DataStore
     object.updated_at = time_now
 
     database.transaction do |db|
+      db[table] ||= []
       db[table] << object
     end
     find(object.id)
@@ -50,7 +52,7 @@ module DataStore
   end
 
   def next_id
-    unless all.empty?
+    unless all.nil? || all.empty?
       all.map(&:id).max + 1
     else
       1 # return 1 as the starting id if first item

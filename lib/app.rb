@@ -2,6 +2,7 @@ require './lib/idea_box'
 require './lib/app/helpers/asset_handler'
 require 'better_errors'
 require 'sass'
+require './lib/idea_box/sms_converter'
 
 class IdeaBoxApp < Sinatra::Base
 
@@ -47,7 +48,8 @@ class IdeaBoxApp < Sinatra::Base
   # You'll need to customize the following line. Replace the CONSUMER_KEY
   #   and CONSUMER_SECRET with the values you got from Twitter
   #   (https://dev.twitter.com/apps/new).
-  use OmniAuth::Strategies::Twitter, 'Hxa2BN3YRedsQRXCrYHFA', 'EG9wDKRsAOyXcTSlglDC8JcCq9vVINl4ScDKaG9pQ'
+  use OmniAuth::Strategies::Twitter,
+    'Hxa2BN3YRedsQRXCrYHFA', 'EG9wDKRsAOyXcTSlglDC8JcCq9vVINl4ScDKaG9pQ'
 
   not_found do
     haml :error
@@ -128,23 +130,28 @@ class IdeaBoxApp < Sinatra::Base
     redirect '/'
   end
 
-  get '/hello-monkey' do
-    Twilio::TwiML::Response.new do |r|
-      r.say "Hello Monkey"
-    end.text
-  end
+  get '/sms' do
+    sender_phone = params["From"]
+    sender       = User.find_by_phone(sender_phone)
 
-  get '/sms-quickstart' do
-    sender = params["From"]
-    friends = {
-      "+15172434516" => "Nathaniel Watts",
-    }
-    puts "=======> #{friends[sender]}"
-    puts "=======> #{sender}"
-    name = friends[sender] || "Mobile MOnkey"
-    twiml = Twilio::TwiML::Response.new do |r|
-      r.Message "Hello, #{name}. Thanks for the message."
+    if sender
+      sms_body = params["Body"]
+      idea = SMSToIdeaConverter.convert(sms_body).idea
+      idea.user_id = sender.id
+      if idea.save
+        message = "Thanks, #{sender.name}! '#{idea.title}' has created!"
+      else
+        message = "OOPS, sorry #{sender.name}, looks like something went awry."
+      end
+    else
+      message = "Sorry, looks like you're not able to post via text."
+      message += " Try adding your phone in your account settings."
     end
+
+    twiml = Twilio::TwiML::Response.new do |r|
+      r.Message message
+    end
+
     twiml.text
   end
 

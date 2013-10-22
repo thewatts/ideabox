@@ -1,6 +1,6 @@
 require './lib/idea_box/idea'
 
-class SMSToIdeaConverter
+module SMSToIdeaConverter
 
   class << self
     attr_reader :raw, :title, :description, :tags, :idea
@@ -10,6 +10,7 @@ class SMSToIdeaConverter
     reset_values
     @raw = sms_body
     parse_sms_body
+    self
   end
 
   def self.reset_values

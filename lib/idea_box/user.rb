@@ -31,16 +31,21 @@ class User
       all.find { |user| user.nickname == nickname }
     end
 
+    def find_by_phone(phone)
+      all.find { |user| user.phone == phone }
+    end
+
   end
 
   attr_accessor :id, :uid, :name, :nickname,
-                :image, :created_at, :updated_at
+                :image, :phone, :created_at, :updated_at
 
   def initialize(attributes = {})
     @uid                   = validate(attributes[:uid])
     @name                  = validate(attributes[:name])
     @nickname              = validate(attributes[:nickname])
     @image                 = attributes[:image]
+    @phone                 = attributes[:phone]
   end
 
   def save
