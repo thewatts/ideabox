@@ -128,5 +128,25 @@ class IdeaBoxApp < Sinatra::Base
     redirect '/'
   end
 
+  get '/hello-monkey' do
+    Twilio::TwiML::Response.new do |r|
+      r.say "Hello Monkey"
+    end.text
+  end
+
+  get '/sms-quickstart' do
+    sender = params["From"]
+    friends = {
+      "+15172434516" => "Nathaniel Watts",
+    }
+    puts "=======> #{friends[sender]}"
+    puts "=======> #{sender}"
+    name = friends[sender] || "Mobile MOnkey"
+    twiml = Twilio::TwiML::Response.new do |r|
+      r.Message "Hello, #{name}. Thanks for the message."
+    end
+    twiml.text
+  end
+
 
 end
