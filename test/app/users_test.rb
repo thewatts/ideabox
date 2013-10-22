@@ -1,6 +1,6 @@
 require './test/test_helper'
 require './test/app_helper'
-require './lib/idea_box'
+require './lib/app'
 
 class UsersControllerTest < MiniTest::Test
   include Rack::Test::Methods

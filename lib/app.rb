@@ -1,8 +1,13 @@
+require './lib/app/auth'
+require './lib/app/ideas'
+require './lib/app/sms'
+require './lib/app/users'
 require './lib/idea_box'
-require './lib/app/helpers/asset_handler'
+
 require 'better_errors'
 require 'sass'
-require './lib/idea_box/sms_converter'
+
+require './lib/app/helpers/asset_handler'
 
 class IdeaBoxApp < Sinatra::Base
 
@@ -45,115 +50,8 @@ class IdeaBoxApp < Sinatra::Base
     end
   end
 
-  # You'll need to customize the following line. Replace the CONSUMER_KEY
-  #   and CONSUMER_SECRET with the values you got from Twitter
-  #   (https://dev.twitter.com/apps/new).
-  use OmniAuth::Strategies::Twitter,
-    'Hxa2BN3YRedsQRXCrYHFA', 'EG9wDKRsAOyXcTSlglDC8JcCq9vVINl4ScDKaG9pQ'
-
   not_found do
     haml :error
   end
-
-  get '/' do
-    haml :index, locals: { ideas: Idea.all.sort, idea: Idea.new }
-  end
-
-  post '/' do
-    params[:idea].merge!({"user_id" => current_user.id})
-    Idea.create(params[:idea])
-    redirect "/"
-  end
-
-  get '/:id/edit' do |id|
-    idea = Idea.find(id.to_i)
-    haml :edit, locals: { idea: idea }
-  end
-
-  put '/:id' do |id|
-    #if request.headers["Content-Type"] == "application/json"
-    #  # make json
-    #else
-    Idea.update(id.to_i, params[:idea])
-    redirect '/'
-  end
-
-  delete '/:id' do |id|
-    Idea.delete(id.to_i)
-    redirect '/'
-  end
-
-  post '/:id/like' do |id|
-    idea = Idea.find(id.to_i)
-    idea.like!
-    redirect '/'
-  end
-
-  get '/tags' do
-    ideas = Idea.all
-  end
-
-  get '/users' do
-    users = User.all
-    haml :users, locals: { users: users }
-  end
-
-  get '/users/:nickname' do |nickname|
-    user = User.find_by_nickname(nickname)
-    haml :user, locals: { user: user }
-  end
-
-  get '/logout' do
-    session[:user_id] = nil
-    redirect '/'
-  end
-
-  ["/login/?", "/signup/?"].each do |path|
-    get path do
-      redirect '/auth/twitter'
-    end
-  end
-
-  get '/auth/twitter/callback' do
-    auth = request.env["omniauth.auth"]
-    user = User.first_or_create(
-      {:uid => auth["uid"]},
-      {
-        :uid        => auth["uid"],
-        :nickname   => auth["info"]["nickname"],
-        :name       => auth["info"]["name"],
-        :image      => auth["info"]["image"]
-      }
-    )
-
-    session[:user_id] = user.id
-    redirect '/'
-  end
-
-  get '/sms' do
-    sender_phone = params["From"]
-    sender       = User.find_by_phone(sender_phone)
-
-    if sender
-      sms_body = params["Body"]
-      idea = SMSToIdeaConverter.convert(sms_body).idea
-      idea.user_id = sender.id
-      if idea.save
-        message = "Thanks, #{sender.name}! '#{idea.title}' has created!"
-      else
-        message = "OOPS, sorry #{sender.name}, looks like something went awry."
-      end
-    else
-      message = "Sorry, looks like you're not able to post via text."
-      message += " Try adding your phone in your account settings."
-    end
-
-    twiml = Twilio::TwiML::Response.new do |r|
-      r.Message message
-    end
-
-    twiml.text
-  end
-
 
 end
