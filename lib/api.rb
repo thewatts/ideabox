@@ -16,6 +16,7 @@ class IdeaBoxAPI < Sinatra::Base
   set :method_override, true
 
   helpers do
+
     def authorize!(access_key)
       user = User.find_by_access_key(access_key)
       unless user
@@ -44,19 +45,22 @@ class IdeaBoxAPI < Sinatra::Base
   end
 
   post '/ideas/new' do
-    user = authorize!(params[:access_key])
-    idea = Idea.new(params[:idea].merge({"user_id" => user.id}))
+    params = JSON.parse(request.body.read.to_s)
+    user = authorize!(params["access_key"])
+    idea = Idea.new(params["idea"].merge({"user_id" => user.id}))
     idea.save
   end
 
   put '/ideas/:id' do |id|
-    authorize!(params[:access_key])
+    params = JSON.parse(request.body.read.to_s)
+    authorize!(params["access_key"])
     idea = Idea.find(id.to_i)
-    idea.update_attributes(params[:idea])
+    idea.update_attributes(params["idea"])
   end
 
   delete '/ideas/:id' do |id|
-    authorize!(params[:access_key])
+    params = JSON.parse(request.body.read.to_s)
+    authorize!(params["access_key"])
     Idea.delete(id.to_i)
   end
 end
