@@ -36,12 +36,6 @@ class IdeaBoxAPI < Sinatra::Base
     authorize!(params[:access_key])
   end
 
-  post '/idea/new' do
-    user = authorize!(params[:access_key])
-    idea = Idea.new(params[:idea].merge({"user_id" => user.id}))
-    idea.save
-  end
-
   get '/ideas' do
     user = authorize!(params[:access_key])
     user.ideas.each_with_object({:ideas => []}) do |idea, hash|
@@ -49,4 +43,20 @@ class IdeaBoxAPI < Sinatra::Base
     end.to_json
   end
 
+  post '/ideas/new' do
+    user = authorize!(params[:access_key])
+    idea = Idea.new(params[:idea].merge({"user_id" => user.id}))
+    idea.save
+  end
+
+  put '/ideas/:id' do |id|
+    authorize!(params[:access_key])
+    idea = Idea.find(id.to_i)
+    idea.update_attributes(params[:idea])
+  end
+
+  delete '/ideas/:id' do |id|
+    authorize!(params[:access_key])
+    Idea.delete(id.to_i)
+  end
 end

@@ -33,7 +33,7 @@ class ApiTest < MiniTest::Test
   def test_idea_creation_with_valid_key
     assert_equal 0, Idea.all.count
 
-    url = '/idea/new'
+    url = '/ideas/new'
     params = {
       :idea => {
         "title"       => "Cook Food",
@@ -52,7 +52,7 @@ class ApiTest < MiniTest::Test
   def test_idea_cant_be_created_with_invalid_key
     assert_equal 0, Idea.all.count
 
-    url = '/idea/new'
+    url = '/ideas/new'
     params = {
       :idea => {
         "title"       => "Cook Food",
@@ -85,12 +85,7 @@ class ApiTest < MiniTest::Test
     }
     idea2 = Idea.create(idea2_attributes)
 
-    ideas_json = {
-      :ideas => [
-        idea1.to_h,
-        idea2.to_h
-      ]
-    }.to_json
+    ideas_json = {:ideas => [idea1.to_h, idea2.to_h]}.to_json
 
     assert_equal 2, Idea.all.count
 
@@ -110,5 +105,65 @@ class ApiTest < MiniTest::Test
     assert_equal 401, last_response.status
   end
 
+  def test_editing_of_idea_with_access_key
+    idea_attributes = {
+      "title"       => "Go to the Beach",
+      "description" => "This Sunday!",
+      "tags"        => "beach, sun, swimming",
+      "user_id"     => user.id
+    }
+    idea = Idea.create(idea_attributes)
+
+    assert_equal 1, Idea.all.count
+
+    url = '/ideas/1'
+    params = {
+      :idea => { "title" => "Go to the MOON!" },
+      :access_key => access_key
+    }
+
+    assert_equal 1, Idea.all.count
+
+    put url, params
+
+    idea = Idea.all.last
+    assert_equal 200, last_response.status
+    assert_equal "Go to the MOON!", idea.title
+  end
+
+  def test_prevent_edit_ideas_without_access_key
+    url = '/ideas/1'
+    params = { :access_key => "asdf" }
+
+    put url, params
+    assert_equal 401, last_response.status
+  end
+
+  def test_delete_idea_with_access_key
+    idea_attributes = {
+      "title"       => "Go to the Beach",
+      "description" => "This Sunday!",
+      "tags"        => "beach, sun, swimming",
+      "user_id"     => user.id
+    }
+    idea = Idea.create(idea_attributes)
+
+    assert_equal 1, Idea.all.count
+
+    url = '/ideas/1'
+    params = { :access_key => access_key }
+
+    delete url, params
+    assert_equal 200, last_response.status
+    assert_equal 0, Idea.all.count
+  end
+
+  def test_prevent_delete_idea_without_access_key
+    url = '/ideas/1'
+    params = { :access_key => "asdf" }
+
+    delete url, params
+    assert_equal 401, last_response.status
+  end
 
 end
