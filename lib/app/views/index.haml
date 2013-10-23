@@ -5,9 +5,11 @@
 
 %ul
   -ideas.each do |idea|
-    %li
-      =idea.title
-      =idea.description
+    %li{class: "idea_#{idea.id}"}
+      %span.title
+        =idea.title
+      %span.description
+        =idea.description
       %form{ action: "/#{idea.id}/like", method: "POST", style: "display: inline" }
         %input{ type: "submit", value: "+" }
       %br

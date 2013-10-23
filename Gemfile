@@ -5,6 +5,7 @@ gem 'sinatra-contrib',   require: 'sinatra/reloader'
 gem 'sinatra-assetpack', require: 'sinatra/assetpack'
 
 gem 'twilio-ruby'
+gem 'pusher'
 
 gem 'omniauth'
 gem 'omniauth-twitter'

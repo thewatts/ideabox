@@ -6,6 +6,9 @@
     /%link{:rel => "stylesheet", :href => "/css/foundation.css"}
     /%link{:rel => "stylesheet", :href => "/css/app.css"}
     != css :application, :media => 'screen'
+    %script{ src: "http://js.pusher.com/1.11/pusher.min.js"}
+    %script{ src: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"}
+    != js  :app
   %body
     - if current_user
       %p there is a current user!

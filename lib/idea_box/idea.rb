@@ -84,6 +84,7 @@ class Idea
 
   def to_h
     {
+      :id          => id,
       :title       => title,
       :description => description,
       :tags        => raw_tags,
