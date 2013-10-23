@@ -82,4 +82,16 @@ class Idea
     other.rank <=> rank
   end
 
+  def to_h
+    {
+      :title       => title,
+      :description => description,
+      :tags        => raw_tags,
+      :rank        => rank,
+      :user_id     => user_id,
+      :created_at  => created_at,
+      :updated_at  => updated_at,
+    }
+  end
+
 end

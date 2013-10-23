@@ -10,6 +10,7 @@ class UserTest < MiniTest::Test
     User.destroy_db
     Idea.destroy_db
     @attributes = {
+      :uid => "abc1234",
       :nickname => "thewatts",
       :name     => "Nathaniel",
       :image    => "http://google.com"
@@ -61,6 +62,14 @@ class UserTest < MiniTest::Test
     attributes = @attributes.merge({:phone => "123-123-1234"})
     new_user = User.create(attributes)
     assert_equal new_user.id, User.find_by_phone("123-123-1234").id
+  end
+
+  def test_its_created_with_an_access_key
+    secret = "Make everything as simple as possible, but not simpler. abc1234"
+    access_key = Digest::SHA1.hexdigest(secret)
+    new_user = User.create(attributes)
+    assert_equal 1, User.all.count
+    assert_equal access_key, new_user.access_key
   end
 
 end

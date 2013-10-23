@@ -35,10 +35,14 @@ class User
       all.find { |user| user.phone == phone }
     end
 
+    def find_by_access_key(key)
+      all.find { |user| user.access_key == key }
+    end
+
   end
 
-  attr_accessor :id, :uid, :name, :nickname,
-                :image, :phone, :created_at, :updated_at
+  attr_accessor :id, :uid, :name, :nickname, :image, :phone,
+                :access_key, :created_at, :updated_at
 
   def initialize(attributes = {})
     @uid                   = validate(attributes[:uid])
@@ -46,6 +50,15 @@ class User
     @nickname              = validate(attributes[:nickname])
     @image                 = attributes[:image]
     @phone                 = attributes[:phone]
+    @access_key            = create_key
+  end
+
+  def create_key
+    Digest::SHA1.hexdigest(secret)
+  end
+
+  def secret
+   "Make everything as simple as possible, but not simpler. #{uid}"
   end
 
   def save
