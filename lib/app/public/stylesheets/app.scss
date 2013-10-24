@@ -1,0 +1,235 @@
+/* Artfully masterminded by ZURB  */
+
+/* --------------------------------------------------
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page Name 1
+:: Page Name 2
+*/
+
+body {
+  background-color: #fefefe;
+}
+
+li {
+  list-style-type: none;
+}
+
+.wrapper {
+  padding: 0 15px;
+}
+
+
+/* -----------------------------------------
+   mixins
+----------------------------------------- */
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+       -o-border-radius: $radius;
+          border-radius: $radius;
+}
+
+
+
+/* -----------------------------------------
+   Page Name 1
+----------------------------------------- */
+
+.button {
+  border: solid 1px #eee;
+  padding: 15px 45px;
+  text-align: center;
+  display: inline-block;
+  @include border-radius(4px);
+}
+
+.new {
+  background: #28cc7c;
+  color: #fefefe;
+  font-size: 14px;
+  &:hover {
+    border: solid 1px #ddd;
+    box-shadow: 0px 0px 1px #ccc;
+    text-shadow: 0px 0px 1px #ddd;
+  }
+}
+
+.auth-nav {
+  .new {
+    margin-top: -5px;
+    margin-bottom: 14px;
+    &:hover {
+      color: #fff;
+      border: solid 1px #ddd;
+      box-shadow: 0px 0px 1px #ccc;
+      text-shadow: 0px 0px 1px #ddd;
+    }
+  }
+}
+
+.button:hover {
+  cursor: pointer;
+  -webkit-transition: 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275) all;
+     -moz-transition: 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275) all;
+      -ms-transition: 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275) all;
+          transition: 0.3s cubic-bezier(0.175, 0.885, 0.320, 1.275) all;
+}
+
+.avatar {
+  @include border-radius(50em);
+}
+
+.update {
+  float: left;
+  width: 100%;
+  padding: 5px 10px;
+  .content {
+    float: left;
+    margin-left: 10px;
+    margin-top: 5px;
+  }
+  @include border-radius(4px);
+  p {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.member {
+  margin-bottom: 10px;
+  width: 100px;
+  float: left;
+}
+
+
+.update-avatar {
+  border: solid 1px #efefef;
+  background: white;
+  padding: 1px;
+  @include border-radius(100em);
+  width: 50px;
+  float: left;
+  .avatar {
+    margin-top: 1px;
+  }
+}
+
+/* ----------------------------------------
+  HEADER
+------------------------------------------*/
+.logo {
+  margin-top: 25px;
+  float: left;
+  background: url(../images/logo.png) no-repeat top left;
+  width: 172px;
+  height: 34px;
+  text-indent: -9999px;
+}
+
+
+/* -----------------------------------------
+  USER NAV
+----------------------------------------- */
+.user {
+  margin-top: 15px;
+  margin-bottom: -25px;
+  width: 200px;
+  float: right;
+  .avatar {
+    float: right;
+    width: 40px;
+    margin-right: 20px;
+    @include border-radius(50em);
+  }
+  .dropdown {
+    float: right;
+
+    .parent {
+      margin-top: 10px;
+      height: 40px;
+      position: relative;
+      img {
+        width: 20px;
+        display: block;
+        margin: 5px;
+      }
+      &:hover {
+        cursor: pointer;
+        .children {
+          display: block;
+        }
+      }
+
+      .children {
+        background: #fafafa;
+        border: solid 1px #eee;
+        @include border-radius(5px);
+        z-index: 100;
+        position: absolute;
+        top: 38px;
+        right: 0;
+        display: none;
+
+        .child {
+          float: right;
+          clear: right;
+          display: block;
+          height: auto;
+          .settings {
+            border-bottom: solid 1px #efefef;
+          }
+          a {
+            margin: 0;
+            padding: 8px 14px;
+            width: 80px;
+            text-align: right;
+            display: block;
+            &:hover {
+              color: #222;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.title {
+  .avatar {
+    float: left;
+    width: 45px;
+    padding-top: 7px;
+    margin-right: 20px;
+  }
+  h3 {
+    float: left;
+  }
+}
+
+.description {
+  padding-top: 10px;
+}
+
+.clear {
+  clear: both;
+}
+
+.nav {
+  margin-top: 5px;
+  float: right;
+  li {
+    &.nav-label {
+      padding-right: 20px;
+    }
+    float: left;
+    a {
+      padding: 10px
+    }
+  }
+}
+
+
