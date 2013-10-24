@@ -50,6 +50,10 @@ class Idea
     @tags        = attributes["tags"]
   end
 
+  def user
+    User.find(user_id)
+  end
+
   def save
     Idea.create(self)
   end

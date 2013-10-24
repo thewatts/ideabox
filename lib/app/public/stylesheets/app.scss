@@ -45,6 +45,9 @@ li {
   text-align: center;
   display: inline-block;
   @include border-radius(4px);
+  &:hover {
+    color: #fff;
+  }
 }
 
 .new {
@@ -83,6 +86,12 @@ li {
   @include border-radius(50em);
 }
 
+.activity {
+  h3 {
+    margin-bottom: 30px;
+  }
+}
+
 .update {
   float: left;
   width: 100%;
@@ -91,6 +100,7 @@ li {
     float: left;
     margin-left: 10px;
     margin-top: 5px;
+    width: 80%;
   }
   @include border-radius(4px);
   p {
@@ -232,4 +242,14 @@ li {
   }
 }
 
+.home {
+  margin-top: 50px;
+  border: solid 1px #eee;
+  text-align: center;
+  @include border-radius(5px);
+  padding: 80px 20px;
+  a {
+    margin-top: 50px;
+  }
+}
 

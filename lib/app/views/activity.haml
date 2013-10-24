@@ -1,0 +1,33 @@
+.row.activity
+  .eight.columns
+    %h3 gSchool's Activity
+    / Grid Example
+    - ideas.each do |idea|
+      .row
+        .twelve.columns
+          .panel.update
+            %a{ href: "/ideas/#{idea.id}" }
+              .update-avatar
+                %img.avatar{src: "#{idea.user.image}"}/
+              .content
+                %p
+                  =idea.user.name
+                  created the idea
+                  %strong
+                    %em
+                      =idea.title
+                  at
+                  %em
+                    =idea.created_at
+                  -if !idea.tags.empty?
+                    %br
+                    &#35;
+                    =idea.raw_tags
+
+  .four.columns
+    %h4 Members
+    .row
+      -users.each do |user|
+        .four.columns.member
+          %a{href: "/users/#{user.nickname}"}
+            %img.avatar{src: "#{user.image}"}/

@@ -1,0 +1,33 @@
+!!!
+/ paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/
+/[if IE 8] <html class="no-js lt-ie9" lang="en">
+/ [if gt IE 8]><!
+%html.no-js{lang: "en"}
+  / <![endif]
+  %head
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width", name: "viewport"}/
+    %title Welcome to powwow!
+    / Included CSS Files (Uncompressed)
+    /
+      <link rel="stylesheet" href="stylesheets/foundation.css">
+    / Included CSS Files (Compressed)
+    %link{href: "/stylesheets/foundation.min.css", rel: "stylesheet"}/
+    %link{href: "/stylesheets/app.css", rel: "stylesheet"}/
+    %script{src: "/javascripts/modernizr.foundation.js"}
+  %body
+    .row.home
+      .twelve.columns
+        %img{src: "/images/home-logo.png"}/
+        .signup
+          %a.button.new{:href => '/login'}
+            Login / Signup!
+    .footer.row
+      %hr/
+      %p
+        \&copy 2013 powwow.io
+    / Included JS Files (Compressed)
+    %script{src: "/javascripts/foundation.min.js"}
+    / Initialize JS Plugins
+    %script{src: "/javascripts/app.js"}

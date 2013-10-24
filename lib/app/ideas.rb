@@ -1,7 +1,11 @@
 class IdeaBoxApp < Sinatra::Base
 
   get '/' do
-    haml :index, locals: { ideas: Idea.all.sort, idea: Idea.new }
+    if current_user
+      redirect '/activity'
+    else
+      haml :home, :layout => false
+    end
   end
 
   post '/' do

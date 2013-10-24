@@ -1,11 +1,16 @@
-%form{ action: "/#{idea.id}", method: 'POST' }
-  -if idea.id
-    %p Edit Your Idea:
-    %input{ type: "hidden", name: "_method", value: "put" }
-  -else
-    %p Your Idea:
-  %input{ type: 'text', name: 'idea[title]', value: "#{idea.title}" }
-  %br
-  %textarea{ name: "idea[description]" }
-    =idea.description
-  %input{ type: 'submit' }
+#new-idea.reveal-modal
+  %form{ action: "/#{idea.id}", method: 'POST' }
+    -if idea.id
+      %h2 Edit your Idea
+    -else
+      %h2 Create your New Idea!
+      %p
+        %em For Rizzle.
+    %input{name: "idea[title]", placeholder: "Title", type: "text"}/
+    %textarea{name: "idea[description]", placeholder: "Description"}
+    %input{name: "idea[tags]", placeholder: "Tags - ex: Eat, Sleep, Breath", type: "text"}/
+    -if idea.id
+      %input.button.new{type: "submit", value: "EDIT THAT MUG!"}/
+    -else
+      %input.button.new{type: "submit", value: "POW!"}/
+  %a.close-reveal-modal ×
