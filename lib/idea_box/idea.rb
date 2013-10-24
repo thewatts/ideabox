@@ -1,4 +1,5 @@
 require './lib/idea_box/data_store'
+require './lib/idea_box'
 
 class Idea
   extend DataStore

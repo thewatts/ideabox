@@ -1,4 +1,5 @@
 require 'api_helper'
+require 'json'
 
 class ApiTest < MiniTest::Test
   include Rack::Test::Methods
@@ -19,6 +20,10 @@ class ApiTest < MiniTest::Test
   def teardown
     User.reset_table
     Idea.reset_table
+  end
+
+  def content_type
+    {"CONTENT_TYPE" => "application/json"}
   end
 
   def test_it_exists
@@ -43,7 +48,7 @@ class ApiTest < MiniTest::Test
       :access_key => access_key
     }
 
-    post url, params
+    post url, params.to_json.to_s, content_type
 
     assert_equal 200, last_response.status
     assert_equal 1, Idea.all.count
@@ -62,7 +67,7 @@ class ApiTest < MiniTest::Test
       :access_key => "1234"
     }
 
-    post url, params
+    post url, params.to_json.to_s, content_type
 
     assert_equal 401, last_response.status
     assert_equal 0, Idea.all.count
@@ -118,13 +123,13 @@ class ApiTest < MiniTest::Test
 
     url = '/ideas/1'
     params = {
-      :idea => { "title" => "Go to the MOON!" },
+      :idea => {
+        "title" => "Go to the MOON!"
+      },
       :access_key => access_key
     }
 
-    assert_equal 1, Idea.all.count
-
-    put url, params
+    put url, params.to_json.to_s, content_type
 
     idea = Idea.all.last
     assert_equal 200, last_response.status
@@ -135,7 +140,7 @@ class ApiTest < MiniTest::Test
     url = '/ideas/1'
     params = { :access_key => "asdf" }
 
-    put url, params
+    put url, params.to_json.to_s, content_type
     assert_equal 401, last_response.status
   end
 
@@ -153,7 +158,7 @@ class ApiTest < MiniTest::Test
     url = '/ideas/1'
     params = { :access_key => access_key }
 
-    delete url, params
+    delete url, params.to_json.to_s, content_type
     assert_equal 200, last_response.status
     assert_equal 0, Idea.all.count
   end
@@ -162,7 +167,7 @@ class ApiTest < MiniTest::Test
     url = '/ideas/1'
     params = { :access_key => "asdf" }
 
-    delete url, params
+    delete url, params.to_json.to_s, content_type
     assert_equal 401, last_response.status
   end
 
