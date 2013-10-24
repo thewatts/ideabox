@@ -1,0 +1,9 @@
+.single-idea.row.tags-list
+  .twelve.columns
+    .title
+      %h3 Tags
+    .row.clear.tags
+      -tags.each do |tag|
+        %a.tag{ href: "/tags/#{tag}" }
+          =tag
+

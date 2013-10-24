@@ -12,4 +12,16 @@ class IdeaBoxApp < Sinatra::Base
     haml :user, locals: { user: user }
   end
 
+  get '/settings' do
+    authorize!
+    user = current_user
+    haml :user_settings, locals: { user: user }
+  end
+
+  put '/users/:id' do |id|
+    user = User.find(id.to_i)
+    user.update_attributes({:phone => params[:user][:phone]})
+    redirect back
+  end
+
 end

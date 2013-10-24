@@ -20,6 +20,15 @@ class IdeaBoxApp < Sinatra::Base
     idea = SMSToIdeaConverter.convert(sms_body).idea
     idea.user_id = sender.id
     idea.save
+    data = {
+      :idea => idea.to_h,
+      :user => {
+        :name  => sender.name,
+        :image => sender.image
+      }
+    }
+    Pusher['activity_channel'].trigger('new_idea', :data => data)
+    idea
   end
 
   def sms_error

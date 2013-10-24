@@ -1,0 +1,26 @@
+.single-idea.row
+  .twelve.columns
+    .title
+      %h3
+        =tag
+    .row.clear.user-ideas
+      -ideas.each do |idea|
+        .three.columns
+          .panel
+            %a{ href: "/ideas/#{idea.id}" }
+              .content.user-content
+                %p
+                  %strong
+                    %em
+                      =idea.title
+                  %br
+                  %em
+                    =idea.created_at.strftime("%a, %b %e - %m:%M %p")
+                  -if !idea.tags.empty?
+                    %br
+                    &#35;
+                    =idea.raw_tags
+                    %br
+                    rank:
+                    =idea.rank
+

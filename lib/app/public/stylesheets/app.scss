@@ -140,6 +140,9 @@ li {
   margin-bottom: 10px;
   width: 100px;
   float: left;
+  .avatar {
+    width: 75px;
+  }
 }
 
 
@@ -284,4 +287,24 @@ li {
 }
 .user-content {
   height: 90px;
+}
+
+.tags-list {
+  padding: 20px;
+}
+
+.tags {
+  padding: 10px;
+}
+
+.tag {
+  padding: 10px 12px;
+  margin: 8px 3px;
+  float: left;
+  @include border-radius(4px);
+  background: #28cc7c;
+  color: #ddd;
+  &:hover {
+    color: #fff;
+  }
 }

@@ -1,0 +1,39 @@
+.single-idea.row
+  .twelve.columns
+    .title
+      %img.avatar{src: "#{user.image}"}/
+      %h3
+        Settings - 
+        =user.name
+    .row.clear
+      .twelve.columns
+        -if user.phone
+          %p
+            Your current number on file is:
+            %strong
+              =user.phone
+        -else
+          %p
+            You don't have a phone number on file, add one!
+        %a.button.new{"data-reveal-id" => "user-phone", href: "#"}
+          Add/Edit Phone Number
+        
+        %h4 
+          You can text in Ideas to: 
+          %em 517-721-7715 ...
+        %p
+          using this syntax:
+          %strong title :: description # tag, tag, tag
+
+      
+
+#user-phone.reveal-modal
+  %form{ action: "/users/#{user.id}", method: 'POST' }
+    %input{ type: "hidden", name: "_method", value: "put" }
+    %h2 Add your Number!
+    %p
+      Make sure it's formatted like: +13035551212 !!!!
+    %input{name: "user[phone]", placeholder: "Phone: +13035551234", 
+        type: "text", value: "#{user.phone}"}/
+    %input.button.new{type: "submit", value: "UPDATE YO DIGITS!"}/
+  %a.close-reveal-modal ×
