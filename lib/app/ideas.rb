@@ -11,7 +11,14 @@ class IdeaBoxApp < Sinatra::Base
   post '/' do
     params[:idea].merge!({"user_id" => current_user.id})
     idea = Idea.create(params[:idea])
-    Pusher['test_channel'].trigger('new_idea', :idea => idea.to_h)
+    data = {
+      :idea => idea.to_h,
+      :user => {
+        :name => idea.user.name,
+        :image => idea.user.image
+      }
+    }
+    Pusher['activity_channel'].trigger('new_idea', :data => data)
     #redirect "/"
   end
 
