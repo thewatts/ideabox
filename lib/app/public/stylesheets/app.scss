@@ -162,12 +162,15 @@ li {
   HEADER
 ------------------------------------------*/
 .logo {
-  margin-top: 25px;
-  float: left;
-  background: url(/images/logo.png) no-repeat top left;
-  width: 172px;
-  height: 34px;
-  text-indent: -9999px;
+    margin-top: 25px;
+    float: left;
+  a {
+    background: url(/images/logo.png) no-repeat top left;
+    width: 172px;
+    height: 34px;
+    text-indent: -9999px;
+    display: block;
+  }
 }
 
 

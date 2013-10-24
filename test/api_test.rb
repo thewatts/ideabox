@@ -1,4 +1,4 @@
-require 'api_helper'
+require './test/api_helper'
 require 'json'
 
 class ApiTest < MiniTest::Test
