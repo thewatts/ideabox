@@ -41,7 +41,7 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_goes_to_idea_edit_page
-    #skip
+    skip
     get '/1/edit'
     assert last_response.ok?
   end
@@ -55,7 +55,7 @@ class IdeaBoxAppTest < MiniTest::Test
   end
 
   def test_it_likes_an_idea
-    #skip
+    skip
     id = 1
     post "/#{id}/like"
     idea = Idea.find(id)

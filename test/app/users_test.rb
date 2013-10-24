@@ -29,12 +29,12 @@ class UsersControllerTest < MiniTest::Test
 
   def test_it_should_hit_the_users_page
     get '/users'
-    assert last_response.ok?, "Users page not 200"
+    assert_equal 302, last_response.status
   end
 
-  def test_it_should_hit_a_users_profile_page
+  def test_it_shouldnt_hit_a_users_profile_page_without_auth
     get '/users/thewatts'
-    assert last_response.ok?, "Can't get to Users Profile page"
+    refute last_response.ok?, "Can get to Users Profile page w/out auth"
   end
 
 end
