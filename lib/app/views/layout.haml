@@ -1,26 +1,106 @@
 !!!
-%html
+/[if IE 8] <html class="no-js lt-ie9" lang="en">
+/ [if gt IE 8]><!
+%html.no-js{lang: "en"}
+  / <![endif]
   %head
-    %title IdeaBox, Your Ideas... IN A BOX!
-    /%link{:rel => "stylesheet", :href => "/css/reset.css"}
-    /%link{:rel => "stylesheet", :href => "/css/foundation.css"}
-    /%link{:rel => "stylesheet", :href => "/css/app.css"}
-    != css :application, :media => 'screen'
+    %meta{charset: "utf-8"}/
+    / Set the viewport width to device width for mobile
+    %meta{content: "width=device-width", name: "viewport"}/
+    %title Welcome to powwow!
+    / Included CSS Files (Uncompressed)
+    /
+      <link rel="stylesheet" href="stylesheets/foundation.css">
+    / Included CSS Files (Compressed)
+    %link{href: "/stylesheets/foundation.min.css", rel: "stylesheet"}/
+    %link{href: "/stylesheets/app.css", rel: "stylesheet"}/
+    %script{src: "/javascripts/modernizr.foundation.js"}
     %script{ src: "http://js.pusher.com/1.11/pusher.min.js"}
     %script{ src: "http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"}
-    != js  :app
   %body
-    - if current_user
-      %p there is a current user!
-      = current_user.nickname
-    - else
-      %p there is NO current user!
-      %a{ href: '/auth/twitter'} Sign in with Twitter
-    .row.header
-      %h1.logo
-        %a{ href: "/", title: "Home | IdeaBox" }
-          IdeaBox
-      .user_nav
-        %span thewatts
-    %h1 IdeaBox!
+    .row
+      .twelve.columns
+        %h2.logo powwow
+        .user
+          %ul.dropdown
+            %li.parent
+              %img{src: "images/icon-user-settings.png"}/
+              %ul.children
+                %li.child
+                  %a.settings{href: "/user/settings"} Settings
+                %li.child
+                  %a{href: "/logout"} Logout
+          %img.avatar{src: "#{current_user.image}"}/
+        %hr/
+    .row.auth-nav
+      .wrapper
+        .four.columns
+          %a.button.new{"data-reveal-id" => "new-idea", href: "#"}
+            New Idea
+        .eight.columns
+          %ul.nav
+            %li.nav-label Ideas by:
+            %li
+              %a{href: "/tags"} Tags
+            %li
+              %a{href: "/tags"} Rank
+            %li
+              %a{href: "/tags"} Team
+        %hr/
+    =haml :form, locals: { idea: idea }
     =yield
+    .single-idea.row
+      .eight.columns
+        .title
+          %img.avatar{src: "images/avatar.png"}/
+          %h3 Go to the Beach
+        .description.clear
+          %p
+            Occupy paleo ethical fugiat. VHS kogi laboris, Portland Williamsburg 8-bit aesthetic nisi est laborum ethnic tote bag jean shorts Brooklyn. Minim anim Etsy DIY, sint plaid placeat. Deep v forage eu fugiat, Tonx delectus Vice. Portland forage vero American Apparel adipisicing. Ea laborum ethical, fap assumenda dolore shabby chic keffiyeh Carles. Art party VHS Helvetica, Schlitz Terry Richardson Pitchfork butcher kogi.
+          %p.tags
+            tags:
+            %a asdf
+          %p.tags
+            created: October 20, 2013 at 10:35am
+      .four.columns
+        %h4 Fans
+        .row
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+          .four.columns.member
+            %a{href: "/"}
+              %img.avatar{src: "/images/avatar.png"}/
+    .footer.row
+      %hr/
+      %p
+        \&copy 2013 powwow.io
+    / Included JS Files (Uncompressed)
+    /
+      <script src="javascripts/jquery.js"></script>
+      <script src="javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+      <script src="javascripts/jquery.foundation.forms.js"></script>
+      <script src="javascripts/jquery.event.move.js"></script>
+      <script src="javascripts/jquery.event.swipe.js"></script>
+      <script src="javascripts/jquery.foundation.reveal.js"></script>
+      <script src="javascripts/jquery.foundation.navigation.js"></script>
+      <script src="javascripts/jquery.foundation.tooltips.js"></script>
+      <script src="javascripts/jquery.foundation.accordion.js"></script>
+      <script src="javascripts/jquery.placeholder.js"></script>
+      <script src="javascripts/jquery.foundation.alerts.js"></script>
+    / Included JS Files (Compressed)
+    %script{src: "/javascripts/foundation.min.js"}
+    / Initialize JS Plugins
+    %script{src: "/javascripts/app.js"}

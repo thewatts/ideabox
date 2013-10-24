@@ -16,35 +16,6 @@ class IdeaBoxApp < Sinatra::Base
 
   enable :sessions
 
-  register Sinatra::AssetPack
-
-  assets {
-    serve '/js',     from: 'assets/js'        # Default
-    serve '/css',    from: 'assets/css'       # Default
-    serve '/images', from: 'assets/images'    # Default
-
-    # The second parameter defines where the compressed version will be served.
-    # (Note: that parameter is optional, AssetPack will figure it out.)
-    js :app, '/js/app.js', [
-      '/js/scripts.js'
-      #'/js/vendor/**/*.js',
-      #'/js/lib/**/*.js'
-    ]
-
-    css :application, '/css/application.css', [
-      '/css/app.css'
-    ]
-
-    js_compression  :jsmin    # :jsmin | :yui | :closure | :uglify
-    css_compression :sass     # :simple | :sass | :yui | :sqwish
-  }
-
-  configure do
-    Pusher.app_id = '57501'
-    Pusher.key    = '3568c8046d9171a5f8ee'
-    Pusher.secret = '780e1174f5e7438514f6'
-  end
-
   configure :development do
     use BetterErrors::Middleware
     BetterErrors.application_root = 'lib/app'
@@ -55,10 +26,22 @@ class IdeaBoxApp < Sinatra::Base
     def current_user
       @current_user ||= User.find(session[:user_id]) if session[:user_id]
     end
+    def authorize!
+      if current_user.nil?
+        redirect '/'
+      end
+    end
   end
 
   not_found do
     haml :error
+  end
+
+  get '/activity' do
+    authorize!
+    ideas = Idea.all.reverse
+    users = User.all
+    haml :activity, locals: { ideas: ideas, users: users, idea: Idea.new }
   end
 
 end
