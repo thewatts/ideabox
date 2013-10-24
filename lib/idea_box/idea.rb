@@ -41,6 +41,7 @@ class Idea
 
   attr_accessor :id, :title, :description, :rank,
                 :user_id, :created_at, :updated_at
+  attr_writer   :tags, :fans
 
   def initialize(attributes = {})
     @title       = attributes["title"]
@@ -48,6 +49,7 @@ class Idea
     @rank        = attributes["rank"] || 0
     @user_id     = attributes["user_id"]
     @tags        = attributes["tags"]
+    @fans        = []
   end
 
   def user
@@ -68,6 +70,14 @@ class Idea
     else
       []
     end
+  end
+
+  def fans
+    @fans ||= []
+  end
+
+  def add_fan(id)
+    fans << id
   end
 
   def tags
@@ -95,7 +105,7 @@ class Idea
       :tags        => raw_tags,
       :rank        => rank,
       :user_id     => user_id,
-      :created_at  => created_at.strftime("%a, %b %e - %m:%M %p")
+      :created_at  => created_at.strftime("%a, %b %e - %m:%M %p"),
       :updated_at  => updated_at,
     }
   end

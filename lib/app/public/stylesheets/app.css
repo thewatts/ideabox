@@ -46,6 +46,24 @@ li {
     box-shadow: 0px 0px 1px #ccc;
     text-shadow: 0px 0px 1px #ddd; }
 
+.edit {
+  background: #ddd;
+  color: #222;
+  font-size: 14px; }
+  .edit:hover {
+    border: solid 1px #ddd;
+    box-shadow: 0px 0px 1px #ccc;
+    text-shadow: 0px 0px 1px #ddd; }
+
+.delete {
+  background: #e74c3c;
+  color: #fefefe;
+  font-size: 14px; }
+  .delete:hover {
+    border: solid 1px #ddd;
+    box-shadow: 0px 0px 1px #ccc;
+    text-shadow: 0px 0px 1px #ddd; }
+
 .auth-nav .new {
   margin-top: -5px;
   margin-bottom: 14px; }
@@ -115,7 +133,7 @@ li {
 .logo {
   margin-top: 25px;
   float: left;
-  background: url(../images/logo.png) no-repeat top left;
+  background: url(/images/logo.png) no-repeat top left;
   width: 172px;
   height: 34px;
   text-indent: -9999px; }
@@ -216,3 +234,9 @@ li {
   padding: 80px 20px; }
   .home a {
     margin-top: 50px; }
+
+.user-ideas {
+  padding-top: 20px; }
+
+.user-content {
+  height: 90px; }

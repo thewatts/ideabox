@@ -1,0 +1,38 @@
+.single-idea.row
+  .eight.columns
+    .title
+      %img.avatar{src: "#{idea.user.image}"}/
+      %h3
+        =idea.title
+      .description.clear
+        %p
+          =idea.description
+        %p.tags
+          tags:
+          -idea.tags.each do |tag|
+            %a{:href => "/tags/#{tag}"}
+              =tag
+        %p.date
+          created:
+          =idea.created_at.strftime("%a, %b %e - %m:%M %p")
+        %p.rank
+          rank:
+          =idea.rank
+      .actions
+        %form{ action: "/#{idea.id}/like",
+                method: "POST", style: "display: inline" }
+          %input.button.new{ type: "submit", value: "Vote+" }
+        %a.button.edit{href: '#', "data-reveal-id" => "edit-idea"}
+          Edit
+        %form{ action: "/#{idea.id}", method: "POST" }
+          %input{ :type => "hidden", :name => "_method", :value => "DELETE" }
+          %input.button.delete{ :type => "submit", :value => "Delete!" }
+  =haml :edit_form, locals: { idea: idea }
+  .four.columns
+    %h4 Fans
+    .row
+      -fans.each do |fan|
+        .four.columns.member
+          %a{href: "/users/#{fan.nickname}"}
+            %img.avatar{src: "#{fan.image}"}
+

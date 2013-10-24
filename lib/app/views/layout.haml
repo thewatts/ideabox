@@ -24,7 +24,7 @@
         .user
           %ul.dropdown
             %li.parent
-              %img{src: "images/icon-user-settings.png"}/
+              %img{src: "/images/icon-user-settings.png"}/
               %ul.children
                 %li.child
                   %a.settings{href: "/user/settings"} Settings
@@ -43,46 +43,13 @@
             %li
               %a{href: "/tags"} Tags
             %li
-              %a{href: "/tags"} Rank
+              %a{href: "/rank"} Rank
             %li
-              %a{href: "/tags"} Team
+              %a{href: "/activity"} Activity
         %hr/
+    - idea ||= new_idea
     =haml :form, locals: { idea: idea }
     =yield
-    .single-idea.row
-      .eight.columns
-        .title
-          %img.avatar{src: "images/avatar.png"}/
-          %h3 Go to the Beach
-        .description.clear
-          %p
-            Occupy paleo ethical fugiat. VHS kogi laboris, Portland Williamsburg 8-bit aesthetic nisi est laborum ethnic tote bag jean shorts Brooklyn. Minim anim Etsy DIY, sint plaid placeat. Deep v forage eu fugiat, Tonx delectus Vice. Portland forage vero American Apparel adipisicing. Ea laborum ethical, fap assumenda dolore shabby chic keffiyeh Carles. Art party VHS Helvetica, Schlitz Terry Richardson Pitchfork butcher kogi.
-          %p.tags
-            tags:
-            %a asdf
-          %p.tags
-            created: October 20, 2013 at 10:35am
-      .four.columns
-        %h4 Fans
-        .row
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
-          .four.columns.member
-            %a{href: "/"}
-              %img.avatar{src: "/images/avatar.png"}/
     .footer.row
       %hr/
       %p

@@ -1,1 +1,27 @@
-=user.nickname
+.single-idea.row
+  .twelve.columns
+    .title
+      %img.avatar{src: "#{user.image}"}/
+      %h3
+        =user.name
+    .row.clear.user-ideas
+      -user.ideas.each do |idea|
+        .three.columns
+          .panel
+            %a{ href: "/ideas/#{idea.id}" }
+              .content.user-content
+                %p
+                  %strong
+                    %em
+                      =idea.title
+                  %br
+                  %em
+                    =idea.created_at.strftime("%a, %b %e - %m:%M %p")
+                  -if !idea.tags.empty?
+                    %br
+                    &#35;
+                    =idea.raw_tags
+                    %br
+                    rank:
+                    =idea.rank
+

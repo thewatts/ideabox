@@ -10,7 +10,7 @@ class IdeaBoxApp < Sinatra::Base
 
   post '/' do
     params[:idea].merge!({"user_id" => current_user.id})
-    idea = Idea.create(params[:idea])idea
+    idea = Idea.create(params[:idea])
     data = {
       :idea => idea.to_h,
       :user => {
@@ -22,7 +22,7 @@ class IdeaBoxApp < Sinatra::Base
     redirect "/"
   end
 
-  get '/:id/edit' do |id|
+  get 'ideas/:id/edit' do |id|
     idea = Idea.find(id.to_i)
     haml :edit, locals: { idea: idea }
   end
@@ -32,7 +32,7 @@ class IdeaBoxApp < Sinatra::Base
     #  # make json
     #else
     Idea.update(id.to_i, params[:idea])
-    redirect '/'
+    redirect back
   end
 
   delete '/:id' do |id|
@@ -43,7 +43,16 @@ class IdeaBoxApp < Sinatra::Base
   post '/:id/like' do |id|
     idea = Idea.find(id.to_i)
     idea.like!
-    redirect '/'
+    idea.add_fan(current_user.id)
+    idea.update_attributes({:fans => idea.fans})
+    redirect back
+  end
+
+  get '/ideas/:id' do |id|
+    authorize!
+    idea = Idea.find(id.to_i)
+    fans = idea.fans.uniq.map { |id| User.find(id) }
+    haml :idea, locals: { idea: idea, fans: fans }
   end
 
   get '/tags' do
