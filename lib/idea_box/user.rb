@@ -1,5 +1,6 @@
 require './lib/idea_box/data_store'
 require './lib/idea_box'
+require 'pusher'
 
 class User
 
@@ -19,6 +20,11 @@ class User
       user = find_by_uid(uid_hash[:uid])
       if user.nil?
         user = create(User.new(attributes))
+        data = {
+          :nickname => user.nickname,
+          :image    => user.image
+        }
+        Pusher['activity_channel'].trigger('new_user', :data => data)
       end
       user
     end

@@ -95,7 +95,7 @@ class Idea
       :tags        => raw_tags,
       :rank        => rank,
       :user_id     => user_id,
-      :created_at  => created_at,
+      :created_at  => created_at.strftime("%a, %b %e - %m:%M %p")
       :updated_at  => updated_at,
     }
   end

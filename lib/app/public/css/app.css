@@ -16,7 +16,13 @@ li {
   padding: 0 15px; }
 
 .hidden {
-  display: none; }
+  display: none !important; }
+
+.ideas {
+  border: solid 20px black; }
+
+.test {
+  border: solid 20px black; }
 
 /* -----------------------------------------
    mixins
@@ -216,3 +222,6 @@ li {
   padding: 80px 20px; }
   .home a {
     margin-top: 50px; }
+
+.test {
+  background: green; }

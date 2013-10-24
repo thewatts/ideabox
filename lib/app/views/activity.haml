@@ -2,31 +2,32 @@
   .eight.columns
     %h3 gSchool's Activity
     / Grid Example
-    - ideas.each do |idea|
-      .row
-        .twelve.columns
-          .panel.update
-            %a{ href: "/ideas/#{idea.id}" }
-              .update-avatar
-                %img.avatar{src: "#{idea.user.image}"}/
-              .content
-                %p
-                  =idea.user.name
-                  created the idea
-                  %strong
+    .ideas
+      - ideas.each do |idea|
+        .row
+          .twelve.columns
+            .panel.update
+              %a{ href: "/ideas/#{idea.id}" }
+                .update-avatar
+                  %img.avatar{src: "#{idea.user.image}"}/
+                .content
+                  %p
+                    =idea.user.name
+                    created
+                    %strong
+                      %em
+                        =idea.title
+                    on
                     %em
-                      =idea.title
-                  at
-                  %em
-                    =idea.created_at
-                  -if !idea.tags.empty?
-                    %br
-                    &#35;
-                    =idea.raw_tags
+                      =idea.created_at.strftime("%a, %b %e - %m:%M %p")
+                    -if !idea.tags.empty?
+                      %br
+                      &#35;
+                      =idea.raw_tags
 
   .four.columns
     %h4 Members
-    .row
+    .row.members
       -users.each do |user|
         .four.columns.member
           %a{href: "/users/#{user.nickname}"}
@@ -34,15 +35,59 @@
 
 :javascript
   $(document).ready(function() {
-    var pusher = new Pusher('3568c8046d9171a5f8ee');
+    var pusher  = new Pusher('3568c8046d9171a5f8ee');
     var channel = pusher.subscribe('activity_channel');
-      channel.bind('new_idea', function(data) {
-        console.log( data.idea )
-        var idea = 'idea_' + data.idea.id;
-        $(idea).child('.title').append("<div class=\"message\">" + data.idea + "</div>");
-      });
-      Pusher.log = function(message) {
-        if (window.console && window.console.log) window.console.log(message);
-      };
-  });
 
+    channel.bind('new_user', function(response) {
+      window.user_data = response.data
+      console.log(user_data);
+      var user_content = "";
+      user_content += "<div class='four columns member hidden'>";
+      user_content += "  <a href='/users/" + user_data.nickname + "'>";
+      user_content += "    <img class='avatar' src='" + user_data.image + "'>";
+      user_content += "  </a>";
+      user_content += "</div>";
+      console.log(user_content);
+      $('.members').append(user_content);
+      $('.member.hidden').fadeIn(1000);
+    });
+
+    channel.bind('new_idea', function(response) {
+
+      window.response_data = response.data
+      var data = response.data
+
+      console.log( data );
+
+      window.content = "";
+
+      content += "<div class='row hidden'>";
+      content +="  <div class='twelve columns'>";
+      content +="    <div class='panel update'>";
+      content +="      <a href='/ideas/" + data.idea.id + "'>";
+      content +="        <div class='update-avatar'>";
+      content +="          <img class='avatar' src='" + data.user.image + "'>";
+      content +="        </div>";
+      content +="        <div class='content'>";
+      content +="          <p>" + data.user.name + " created the idea";
+      content +="            <strong><em>" + data.idea.title + "</em></strong>";
+      content +="            at <em>" + data.idea.created_at + "</em>";
+      if (data.idea.tags) {
+        content +="<br># " + data.idea.tags;
+      }
+      content +="          </p>";
+      content +="        </div>";
+      content +="      </a>";
+      content +="    </div>";
+      content +="  </div>";
+      content +="</div>";
+
+      $('.ideas').prepend(content);
+      $('.hidden').fadeIn(1000);
+    });
+
+    Pusher.log = function(message) {
+      if (window.console && window.console.log) window.console.log(message);
+    };
+
+  });
