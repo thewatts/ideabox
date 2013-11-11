@@ -1,6 +1,7 @@
 require './lib/app/auth'
 require './lib/app/ideas'
 require './lib/app/sms'
+require './lib/app/app'
 require './lib/app/users'
 require './lib/idea_box'
 

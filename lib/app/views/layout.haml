@@ -22,16 +22,17 @@
       .twelve.columns
         %h2.logo
           %a{href: '/'} powwow
-        .user
-          %ul.dropdown
-            %li.parent
-              %img{src: "/images/icon-user-settings.png"}/
-              %ul.children
-                %li.child
-                  %a.settings{href: "/settings"} Settings
-                %li.child
-                  %a{href: "/logout"} Logout
-          %img.avatar{src: "#{current_user.image}"}/
+        - if current_user
+          .user
+            %ul.dropdown
+              %li.parent
+                %img{src: "/images/icon-user-settings.png"}/
+                %ul.children
+                  %li.child
+                    %a.settings{href: "/settings"} Settings
+                  %li.child
+                    %a{href: "/logout"} Logout
+            %img.avatar{src: "#{current_user.image}"}/
         %hr/
     .row.auth-nav
       .wrapper

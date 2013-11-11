@@ -1,13 +1,5 @@
 class IdeaBoxApp < Sinatra::Base
 
-  get '/' do
-    if current_user
-      redirect '/activity'
-    else
-      haml :home, :layout => false
-    end
-  end
-
   post '/' do
     params[:idea].merge!({"user_id" => current_user.id})
     idea = Idea.create(params[:idea])
@@ -53,18 +45,6 @@ class IdeaBoxApp < Sinatra::Base
     idea = Idea.find(id.to_i)
     fans = idea.fans.uniq.map { |id| User.find(id) }
     haml :idea, locals: { idea: idea, fans: fans }
-  end
-
-  get '/tags' do
-    authorize!
-    tags = Idea.tags
-    haml :tags, locals: { tags: tags }
-  end
-
-  get '/tags/:tag' do |tag|
-    authorize!
-    ideas = Idea.find_all_by_tag(tag)
-    haml :tag, locals: { tag: tag, ideas: ideas }
   end
 
 end
